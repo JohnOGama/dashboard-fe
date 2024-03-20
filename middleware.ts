@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const protectedRoutes = ["/", "/websites", "/api", "/documents"];
+const protectedRoutes = ["/", "/websites", "/api", "/documents", "/users"];
 
 export function middleware(request: NextRequest) {
   let cookie = request.cookies.get("auth");

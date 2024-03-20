@@ -11,7 +11,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
 const User = () => {
-  const { logout } = useAuthStore((state) => state);
+  const { logout } = useAuthStore((state: any) => state);
   const [cookies, setCookie, removeCookie] = useCookies(["auth"]);
   const { toast } = useToast();
   const router = useRouter();

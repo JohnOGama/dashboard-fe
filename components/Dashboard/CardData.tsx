@@ -17,7 +17,7 @@ const CardData: React.FC<CardDataProps> = ({ label }) => {
       <CardHeader>
         <CardTitle className="text-sm text-gray-500">{label}</CardTitle>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent className="text-4xl font-bold text-gray-500">20</CardContent>
     </Card>
   );
 };

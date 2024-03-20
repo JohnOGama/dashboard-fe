@@ -1,4 +1,11 @@
-import { ChevronDown, Globe, Home, Paperclip, RocketIcon } from "lucide-react";
+import {
+  ChevronDown,
+  Globe,
+  Home,
+  Paperclip,
+  RocketIcon,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
@@ -13,6 +20,11 @@ const menu = [
     label: "Websites",
     icon: <Globe className="text-purple-500" size={18} />,
     path: "/websites",
+  },
+  {
+    label: "Users",
+    icon: <Users className="text-blue-500" size={18} />,
+    path: "/users",
   },
   {
     label: "APIs",
