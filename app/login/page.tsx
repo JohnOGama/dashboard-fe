@@ -29,27 +29,29 @@ const Login = () => {
   async function handleLogin(e: any) {
     e.preventDefault();
     try {
-      if (!email || !password) {
-        setError("All fields are required");
-      }
-      const response: AxiosResponse = await axios.post(
-        `${baseUrl}/api/auth/login`,
-        {
-          email,
-          password,
-        }
-      );
+      // if (!email || !password) {
+      //   setError("All fields are required");
+      // }
+      // const response: AxiosResponse = await axios.post(
+      //   `${baseUrl}/api/auth/login`,
+      //   {
+      //     email,
+      //     password,
+      //   }
+      // );
 
-      if (response.status === 200) {
-        const token = response.data.accessToken;
-        login(email, password, token);
-        setCookie("auth", token);
-        toast({
-          color: "white",
-          title: "Successful login",
-          description: "Redirect to dashboard",
-        });
-      }
+      // if (response.status === 200) {
+      //   const token = response.data.accessToken;
+      //   login(email, password, token);
+      //   setCookie("auth", token);
+      //   toast({
+      //     color: "white",
+      //     title: "Successful login",
+      //     description: "Redirect to dashboard",
+      //   });
+      // }
+      const token = "123";
+      login(email, password, token);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         setError(error.response?.data.message);

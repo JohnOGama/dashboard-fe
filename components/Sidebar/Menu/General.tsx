@@ -1,9 +1,11 @@
 import {
   ChevronDown,
+  Contact,
   Globe,
   Home,
   Paperclip,
   RocketIcon,
+  Settings,
   Users,
 } from "lucide-react";
 import Link from "next/link";
@@ -17,25 +19,25 @@ const menu = [
     path: "/",
   },
   {
-    label: "Websites",
-    icon: <Globe className="text-purple-500" size={18} />,
-    path: "/websites",
-  },
-  {
     label: "Users",
     icon: <Users className="text-blue-500" size={18} />,
     path: "/users",
   },
   {
-    label: "APIs",
-    icon: <RocketIcon className="text-pink-500" size={18} />,
-    path: "/api",
+    label: "Clients",
+    icon: <Globe className="text-purple-500" size={18} />,
+    path: "/clients",
   },
   {
-    label: "Documents",
-    icon: <Paperclip className="text-green-500" size={18} />,
-    path: "/documents",
+    label: "Boards",
+    icon: <Contact className="text-indigo-500" size={18} />,
+    path: "/boards",
   },
+  // {
+  //   label: "Settings",
+  //   icon: <Settings className="text-pink-500" size={18} />,
+  //   path: "/settings",
+  // },
 ];
 
 const General = () => {

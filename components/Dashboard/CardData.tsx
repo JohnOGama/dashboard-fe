@@ -13,7 +13,7 @@ type CardDataProps = {
 
 const CardData: React.FC<CardDataProps> = ({ label }) => {
   return (
-    <Card className="w-full">
+    <Card className="w-full ">
       <CardHeader>
         <CardTitle className="text-sm text-gray-500">{label}</CardTitle>
       </CardHeader>

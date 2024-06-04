@@ -34,6 +34,16 @@ const menu = [
     icon: <Contact className="text-indigo-500" size={18} />,
     path: "/contacts",
   },
+  {
+    label: "APIs",
+    icon: <RocketIcon className="text-pink-500" size={18} />,
+    path: "/api",
+  },
+  {
+    label: "Documents",
+    icon: <Paperclip className="text-green-500" size={18} />,
+    path: "/documents",
+  },
 ];
 
 const Actions = () => {

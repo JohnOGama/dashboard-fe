@@ -1,76 +1,154 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
 
 import CardData from "@/components/Dashboard/CardData";
-import { Card } from "@/components/ui/card";
-import TableData from "@/Table/TableData";
-import { dateFormatter } from "@/lib/date-formater";
-import useFetch from "@/lib/useFetch";
-
-import Link from "next/link";
-import DeleteWebsite from "@/Table/cell/website/DeleteWebsite";
-import EditWebsite from "@/Table/cell/website/EditWebsite";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { AreaChart, BarChart, BarList, DonutChart } from "@tremor/react";
 
 const Home = ({ hasHeader = true }) => {
-  const { loading, data, refetchData } = useFetch(
-    "website",
-    "/get-all-website"
-  );
+  const chartdata = [
+    { date: "Jan 23", SolarPanels: 2890, Inverters: 2338 },
+    { date: "Feb 23", SolarPanels: 2756, Inverters: 2103 },
+    { date: "Mar 23", SolarPanels: 3322, Inverters: 2194 },
+    { date: "Apr 23", SolarPanels: 3470, Inverters: 2108 },
+    { date: "May 23", SolarPanels: 3475, Inverters: 1812 },
+    { date: "Jun 23", SolarPanels: 3129, Inverters: 1726 },
+    { date: "Jul 23", SolarPanels: 3490, Inverters: 1982 },
+    { date: "Aug 23", SolarPanels: 2903, Inverters: 2012 },
+    { date: "Sep 23", SolarPanels: 2643, Inverters: 2342 },
+    { date: "Oct 23", SolarPanels: 2837, Inverters: 2473 },
+    { date: "Nov 23", SolarPanels: 2954, Inverters: 3848 },
+    { date: "Dec 23", SolarPanels: 3239, Inverters: 3736 },
+  ];
 
-  const columns = [
+  const datahero = [
+    { name: "Noche Holding AG", value: 9800 },
+    { name: "Rain Drop AG", value: 4567 },
+    { name: "Push Rail AG", value: 3908 },
+    { name: "Flow Steal AG", value: 2400 },
+    { name: "Tiny Loop Inc.", value: 2174 },
+    { name: "Anton Resorts Holding", value: 1398 },
+  ];
+
+  const chartdata2 = [
+    { date: "Jan 22", SolarPanels: 2890, Inverters: 2338 },
+    { date: "Feb 22", SolarPanels: 2756, Inverters: 2103 },
+    { date: "Mar 22", SolarPanels: 3322, Inverters: 2194 },
+    { date: "Apr 22", SolarPanels: 3470, Inverters: 2108 },
+    { date: "May 22", SolarPanels: 3475, Inverters: 1812 },
+    { date: "Jun 22", SolarPanels: 3129, Inverters: 1726 },
+    { date: "Jul 22", SolarPanels: 3490, Inverters: 1982 },
+    { date: "Aug 22", SolarPanels: 2903, Inverters: 2012 },
+    { date: "Sep 22", SolarPanels: 2643, Inverters: 2342 },
+    { date: "Oct 22", SolarPanels: 2837, Inverters: 2473 },
+    { date: "Nov 22", SolarPanels: 2954, Inverters: 3848 },
+    { date: "Dec 22", SolarPanels: 3239, Inverters: 3736 },
+  ];
+
+  const data = [
     {
-      header: "URL name",
-      accessorKey: "url_name",
-      cell: ({ getValue }: any) => (
-        <Link href={`${getValue()}`} className="text-gray-500 font-medium">
-          {getValue()}
-        </Link>
-      ),
-    },
-    {
-      header: "Deploy Status",
-      accessorKey: "deploy_status",
-      cell: (props: any) => {
+      name: "Twitter",
+      value: 456,
+      href: "https://twitter.com/tremorlabs",
+      icon: function TwitterIcon() {
         return (
-          <>
-            {props.getValue() === "active" ? (
-              <Badge className="bg-green-500 hover:bg-green-500/90">
-                {props.getValue()}
-              </Badge>
-            ) : (
-              <Badge className="bg-red-500 hover:bg-red-500/90">
-                {props.getValue()}
-              </Badge>
-            )}
-          </>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-2.5 fill-blue-500"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
+            {" "}
+            <path fill="none" d="M0 0h24v24H0z" />{" "}
+            <path d="M22.162 5.656a8.384 8.384 0 0 1-2.402.658A4.196 4.196 0 0 0 21.6 4c-.82.488-1.719.83-2.656 1.015a4.182 4.182 0 0 0-7.126 3.814 11.874 11.874 0 0 1-8.62-4.37 4.168 4.168 0 0 0-.566 2.103c0 1.45.738 2.731 1.86 3.481a4.168 4.168 0 0 1-1.894-.523v.052a4.185 4.185 0 0 0 3.355 4.101 4.21 4.21 0 0 1-1.89.072A4.185 4.185 0 0 0 7.97 16.65a8.394 8.394 0 0 1-6.191 1.732 11.83 11.83 0 0 0 6.41 1.88c7.693 0 11.9-6.373 11.9-11.9 0-.18-.005-.362-.013-.54a8.496 8.496 0 0 0 2.087-2.165z" />{" "}
+          </svg>
         );
       },
     },
-
     {
-      header: "Users",
-      accessorKey: "users",
+      name: "Google",
+      value: 351,
+      href: "https://google.com",
+      icon: function GoogleIcon() {
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-2.5 fill-slate-500"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
+            {" "}
+            <path fill="none" d="M0 0h24v24H0z" />{" "}
+            <path d="M3.064 7.51A9.996 9.996 0 0 1 12 2c2.695 0 4.959.99 6.69 2.605l-2.867 2.868C14.786 6.482 13.468 5.977 12 5.977c-2.605 0-4.81 1.76-5.595 4.123-.2.6-.314 1.24-.314 1.9 0 .66.114 1.3.314 1.9.786 2.364 2.99 4.123 5.595 4.123 1.345 0 2.49-.355 3.386-.955a4.6 4.6 0 0 0 1.996-3.018H12v-3.868h9.418c.118.654.182 1.336.182 2.045 0 3.046-1.09 5.61-2.982 7.35C16.964 21.105 14.7 22 12 22A9.996 9.996 0 0 1 2 12c0-1.614.386-3.14 1.064-4.49z" />{" "}
+          </svg>
+        );
+      },
     },
     {
-      header: "Admin",
-      accessorKey: "admin",
+      name: "GitHub",
+      value: 271,
+      href: "https://github.com/tremorlabs/tremor",
+      icon: function GitHubIcon() {
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-2.5 fill-slate-900"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
+            {" "}
+            <path fill="none" d="M0 0h24v24H0z" />{" "}
+            <path d="M12 2C6.475 2 2 6.475 2 12a9.994 9.994 0 0 0 6.838 9.488c.5.087.687-.213.687-.476 0-.237-.013-1.024-.013-1.862-2.512.463-3.162-.612-3.362-1.175-.113-.288-.6-1.175-1.025-1.413-.35-.187-.85-.65-.013-.662.788-.013 1.35.725 1.538 1.025.9 1.512 2.338 1.087 2.912.825.088-.65.35-1.087.638-1.337-2.225-.25-4.55-1.113-4.55-4.938 0-1.088.387-1.987 1.025-2.688-.1-.25-.45-1.275.1-2.65 0 0 .837-.262 2.75 1.026a9.28 9.28 0 0 1 2.5-.338c.85 0 1.7.112 2.5.337 1.912-1.3 2.75-1.024 2.75-1.024.55 1.375.2 2.4.1 2.65.637.7 1.025 1.587 1.025 2.687 0 3.838-2.337 4.688-4.562 4.938.362.312.675.912.675 1.85 0 1.337-.013 2.412-.013 2.75 0 .262.188.574.688.474A10.016 10.016 0 0 0 22 12c0-5.525-4.475-10-10-10z" />{" "}
+          </svg>
+        );
+      },
     },
     {
-      header: "Created At",
-      accessorKey: "createdAt",
-      cell: (props: any) => <h1>{dateFormatter(props.getValue())}</h1>,
+      name: "Reddit",
+      value: 191,
+      href: "https://reddit.com",
+      icon: function RedditIcon() {
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-2.5 fill-orange-500"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
+            {" "}
+            <path fill="none" d="M0 0h24v24H0z" />{" "}
+            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm6.67-10a1.46 1.46 0 0 0-2.47-1 7.12 7.12 0 0 0-3.85-1.23L13 6.65l2.14.45a1 1 0 1 0 .13-.61L12.82 6a.31.31 0 0 0-.37.24l-.74 3.47a7.14 7.14 0 0 0-3.9 1.23 1.46 1.46 0 1 0-1.61 2.39 2.87 2.87 0 0 0 0 .44c0 2.24 2.61 4.06 5.83 4.06s5.83-1.82 5.83-4.06a2.87 2.87 0 0 0 0-.44 1.46 1.46 0 0 0 .81-1.33zm-10 1a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm5.81 2.75a3.84 3.84 0 0 1-2.47.77 3.84 3.84 0 0 1-2.47-.77.27.27 0 0 1 .38-.38A3.27 3.27 0 0 0 12 16a3.28 3.28 0 0 0 2.09-.61.28.28 0 1 1 .39.4v-.04zm-.18-1.71a1 1 0 1 1 1-1 1 1 0 0 1-1.01 1.04l.01-.04z" />{" "}
+          </svg>
+        );
+      },
     },
     {
-      header: "Actions",
-      accessorKey: "actions",
-      cell: (props: any) => (
-        <div className="flex gap-3">
-          <EditWebsite props={props} refreshData={refetchData} />
-          <DeleteWebsite />
-        </div>
-      ),
+      name: "Youtube",
+      value: 91,
+      href: "https://www.youtube.com/@tremorlabs3079",
+      icon: function YouTubeIcon() {
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-2.5 fill-red-500"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
+            {" "}
+            <path fill="none" d="M0 0h24v24H0z" />{" "}
+            <path d="M21.543 6.498C22 8.28 22 12 22 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.945-.266-1.687-1.04-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.896 0 7.605.476c.945.266 1.687 1.04 1.938 2.022zM10 15.5l6-3.5-6-3.5v7z" />{" "}
+          </svg>
+        );
+      },
     },
   ];
+
+  const dataFormatter = (number: number) =>
+    Intl.NumberFormat("us").format(number).toString();
 
   return (
     <div className="">
@@ -84,14 +162,72 @@ const Home = ({ hasHeader = true }) => {
           </div>
         </div>
       ) : null}
-
-      {loading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <Card>
-          <TableData columns={columns} data={data} />
+      <div className="flex gap-5">
+        <Card className=" w-[100%]">
+          <CardContent>
+            <BarChart
+              className="h-80"
+              data={chartdata}
+              index="date"
+              categories={["SolarPanels", "Inverters"]}
+              valueFormatter={dataFormatter}
+              onValueChange={(v) => console.log(v)}
+            />
+          </CardContent>
         </Card>
-      )}
+        <Card className="w-[20%]">
+          <span className="text-center block font-mono text-tremor-default text-tremor-content dark:text-dark-tremor-content mt-5">
+            Registered Users
+          </span>
+          <div className="flex justify-center items-center">
+            <DonutChart
+              className="mt-14"
+              data={datahero}
+              variant="donut"
+              valueFormatter={dataFormatter}
+              onValueChange={(v) => console.log(v)}
+            />
+          </div>
+        </Card>
+      </div>
+      <div className="mt-5 flex gap-4 w-full">
+        <Card className=" w-[80%]">
+          <CardContent>
+            <AreaChart
+              className="h-80 mt-2"
+              data={chartdata}
+              index="date"
+              categories={["SolarPanels", "Inverters"]}
+              colors={["indigo", "rose"]}
+              valueFormatter={dataFormatter}
+              yAxisWidth={60}
+              onValueChange={(v) => console.log(v)}
+            />
+          </CardContent>
+        </Card>
+        <Card className="w-[20%] ">
+          <CardContent>
+            <h3 className="text-tremor-title text-tremor-content-strong dark:text-dark-tremor-content-strong font-medium mt-2">
+              Website Analytics
+            </h3>
+            <p className="mt-4 text-tremor-default flex items-center justify-between text-tremor-content dark:text-dark-tremor-content">
+              <span>Source</span> <span>Views</span>
+            </p>
+            <BarList data={data} className="mt-2" />
+          </CardContent>
+        </Card>
+        <Card className="w-[20%]">
+          <CardContent>
+            <h3 className="text-tremor-title text-tremor-content-strong dark:text-dark-tremor-content-strong font-medium mt-2">
+              User Active
+            </h3>
+            <p className="mt-4 text-tremor-default flex items-center justify-between text-tremor-content dark:text-dark-tremor-content">
+              <span>Source</span> <span>Views</span>
+            </p>
+            <BarList data={data} className="mt-2" />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

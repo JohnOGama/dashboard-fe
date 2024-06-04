@@ -10,12 +10,23 @@ import {
 } from "@/components/ui/table";
 
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import {
   useReactTable,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   getFilteredRowModel,
 } from "@tanstack/react-table";
+import PaginationBtn from "./Pagination";
 
 type TableDataProps = {
   data: any;
@@ -23,16 +34,26 @@ type TableDataProps = {
 };
 
 const TableData: React.FC<TableDataProps> = ({ data, columns }) => {
-  const { getRowModel, getHeaderGroups } = useReactTable({
+  const {
+    getRowModel,
+    getHeaderGroups,
+    getCanNextPage,
+    getCanPreviousPage,
+    nextPage,
+    previousPage,
+    getState,
+  } = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  const { pageIndex } = getState().pagination;
+
   return (
     <Table>
-      <TableCaption className="pb-4">Website</TableCaption>
+      <TableCaption className="pb-4 ">Website</TableCaption>
       <TableHeader>
         {getHeaderGroups().map((headerGroup, index) => (
           <TableRow key={index}>
@@ -58,6 +79,7 @@ const TableData: React.FC<TableDataProps> = ({ data, columns }) => {
           </TableRow>
         ))}
       </TableBody>
+      <PaginationBtn />
     </Table>
   );
 };

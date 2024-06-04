@@ -21,7 +21,7 @@ const Sidebar = () => {
       </div>
       <General />
       <User />
-      <Actions />
+      {/* <Actions /> */}
     </div>
   );
 };

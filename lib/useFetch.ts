@@ -1,9 +1,10 @@
 import { baseUrl } from "@/const/const";
+import { TUser } from "@/types/userSchema";
 import { useState, useEffect } from "react";
 
 function useFetch(type: string, API_ENDPOINT: string) {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<TUser[]>([]);
 
   async function fetchData() {
     try {
