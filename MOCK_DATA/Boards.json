@@ -1,0 +1,92 @@
+[
+    {
+      "companyName": "Company A",
+      "sales": 1200,
+      "revenue": 150000
+    },
+    {
+      "companyName": "Company B",
+      "sales": 1100,
+      "revenue": 140000
+    },
+    {
+      "companyName": "Company C",
+      "sales": 1300,
+      "revenue": 160000
+    },
+    {
+      "companyName": "Company D",
+      "sales": 900,
+      "revenue": 120000
+    },
+    {
+      "companyName": "Company E",
+      "sales": 1000,
+      "revenue": 130000
+    },
+    {
+      "companyName": "Company F",
+      "sales": 1400,
+      "revenue": 170000
+    },
+    {
+      "companyName": "Company G",
+      "sales": 1500,
+      "revenue": 180000
+    },
+    {
+      "companyName": "Company H",
+      "sales": 1600,
+      "revenue": 190000
+    },
+    {
+      "companyName": "Company I",
+      "sales": 1700,
+      "revenue": 200000
+    },
+    {
+      "companyName": "Company J",
+      "sales": 1800,
+      "revenue": 210000
+    },
+    {
+      "companyName": "Company K",
+      "sales": 1900,
+      "revenue": 220000
+    },
+    {
+      "companyName": "Company L",
+      "sales": 2000,
+      "revenue": 230000
+    },
+    {
+      "companyName": "Company M",
+      "sales": 2100,
+      "revenue": 240000
+    },
+    {
+      "companyName": "Company N",
+      "sales": 2200,
+      "revenue": 250000
+    },
+    {
+      "companyName": "Company O",
+      "sales": 2300,
+      "revenue": 260000
+    },
+    {
+      "companyName": "Company P",
+      "sales": 2400,
+      "revenue": 270000
+    },
+    {
+      "companyName": "Company Q",
+      "sales": 2500,
+      "revenue": 280000
+    },
+    {
+      "companyName": "Company R",
+      "sales": 2600,
+      "revenue": 290000
+    }
+]

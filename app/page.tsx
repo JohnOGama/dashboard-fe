@@ -156,9 +156,9 @@ const Home = ({ hasHeader = true }) => {
         <div>
           <h1>Dashboard</h1>
           <div className="my-5 flex gap-5">
-            <CardData label="Websites" />
-            <CardData label="APIs" />
-            <CardData label="Totals" />
+            <CardData label="Users" />
+            <CardData label="Clients" />
+            <CardData label="Boards" />
           </div>
         </div>
       ) : null}

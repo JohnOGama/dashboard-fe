@@ -4,19 +4,18 @@ import { Badge } from "@/components/ui/badge";
 import CardData from "@/components/Dashboard/CardData";
 import { Card } from "@/components/ui/card";
 import TableData from "@/Table/TableData";
-import { dateFormatter } from "@/lib/date-formater";
+
 import useFetch from "@/lib/useFetch";
 
 import Link from "next/link";
 
-import EditWebsite from "@/Table/cell/website/EditWebsite";
 import { Input } from "@/components/ui/input";
 
 import AddUser from "@/Table/Users/AddUser";
 import DeleteUser from "@/Table/Users/DeleteUser";
 import EditUser from "@/Table/Users/EditUser";
 
-import data1 from "@/MOCK_DATA.json";
+import data1 from "@/MOCK_DATA/Users.json";
 import PaginationBtn from "@/Table/Pagination";
 
 const Users = ({ hasHeader = true }) => {
@@ -89,9 +88,9 @@ const Users = ({ hasHeader = true }) => {
         <div>
           <h1>Dashboard</h1>
           <div className="my-5 flex gap-5">
-            <CardData label="Websites" />
-            <CardData label="APIs" />
-            <CardData label="Totals" />
+            <CardData label="Active Users" />
+            <CardData label="Pending Users" />
+            <CardData label="Total Users" />
           </div>
         </div>
       ) : null}

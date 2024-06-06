@@ -24,9 +24,9 @@ const menu = [
     path: "/users",
   },
   {
-    label: "Clients",
+    label: "Company",
     icon: <Globe className="text-purple-500" size={18} />,
-    path: "/clients",
+    path: "/company",
   },
   {
     label: "Boards",

@@ -1,5 +1,4 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
 
 import CardData from "@/components/Dashboard/CardData";
 import { Card } from "@/components/ui/card";
@@ -11,18 +10,18 @@ import Link from "next/link";
 
 import { Input } from "@/components/ui/input";
 
-import AddUser from "@/Table/Users/AddUser";
 import DeleteUser from "@/Table/Users/DeleteUser";
 import EditUser from "@/Table/Users/EditUser";
 
-import data1 from "@/MOCK_DATA/Boards.json";
+import data1 from "@/MOCK_DATA/Company.json";
 import PaginationBtn from "@/Table/Pagination";
-import { useState } from "react";
-import { baseUrl } from "@/const/const";
+
 import axios from "axios";
+import { baseUrl } from "@/const/const";
+import { useState } from "react";
 import AddData from "@/components/Common/AddDataInTable";
 
-const Boards = ({ hasHeader = true }) => {
+const Clients = ({ hasHeader = true }) => {
   const { loading, data, refetchData } = useFetch("user", "/get-all-user");
   const [formData, setFormData] = useState({
     companyName: "",
@@ -77,8 +76,8 @@ const Boards = ({ hasHeader = true }) => {
 
   const columns = [
     {
-      header: "Company Name",
-      accessorKey: "companyName",
+      header: "Name",
+      accessorKey: "name",
       cell: ({ getValue }: any) => (
         <Link href={`${getValue()}`} className="text-gray-500 font-medium">
           {getValue()}
@@ -86,8 +85,8 @@ const Boards = ({ hasHeader = true }) => {
       ),
     },
     {
-      header: "Sales",
-      accessorKey: "sales",
+      header: "Email",
+      accessorKey: "email",
       cell: ({ getValue }: any) => (
         <Link href={`${getValue()}`} className="text-gray-500 font-medium">
           {getValue()}
@@ -96,10 +95,14 @@ const Boards = ({ hasHeader = true }) => {
     },
 
     {
-      header: "Revenues",
-      accessorKey: "revenue",
+      header: "Company name",
+      accessorKey: "company_name",
     },
-
+    {
+      header: "Created At",
+      accessorKey: "createdAt",
+      // cell: (props: any) => <h1>{dateFormatter(props.getValue())}</h1>,
+    },
     {
       header: "Actions",
       accessorKey: "actions",
@@ -119,9 +122,9 @@ const Boards = ({ hasHeader = true }) => {
         <div>
           <h1>Dashboard</h1>
           <div className="my-5 flex gap-5">
-            <CardData label="Active Boards" />
-            <CardData label="Pending Boards" />
-            <CardData label="Total Sales" />
+            <CardData label="Active Company" />
+            <CardData label="Pending Company" />
+            <CardData label="Total Company" />
           </div>
         </div>
       ) : null}
@@ -139,7 +142,7 @@ const Boards = ({ hasHeader = true }) => {
               handleAddUser={handleAddUser}
               handleChange={handleChange}
               isLoading={isLoading}
-              label="Boards"
+              label="Company"
             />
           </div>
           <Card>
@@ -152,4 +155,4 @@ const Boards = ({ hasHeader = true }) => {
   );
 };
 
-export default Boards;
+export default Clients;
