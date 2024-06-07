@@ -10,16 +10,18 @@ import Link from "next/link";
 
 import { Input } from "@/components/ui/input";
 
-import DeleteUser from "@/Table/Users/DeleteUser";
-import EditUser from "@/Table/Users/EditUser";
+import AddUser from "@/Table/Actions/User/AddUser";
+import DeleteUser from "@/Table/Actions/User/DeleteUser";
+import EditUser from "@/Table/Actions/User/EditUser";
 
 import data1 from "@/MOCK_DATA/Company.json";
 import PaginationBtn from "@/Table/Pagination";
 
 import axios from "axios";
 import { baseUrl } from "@/const/const";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddData from "@/components/Common/AddDataInTable";
+import useCompanyStore from "@/store/useCompanyStore";
 
 const Clients = ({ hasHeader = true }) => {
   const { loading, data, refetchData } = useFetch("user", "/get-all-user");
@@ -30,6 +32,7 @@ const Clients = ({ hasHeader = true }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { company, fetchAllCompanies } = useCompanyStore((state) => state);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -109,48 +112,46 @@ const Clients = ({ hasHeader = true }) => {
       cell: (props: any) => (
         <div className="flex gap-3">
           {/* <EditWebsite props={props} refreshData={refetchData} /> */}
-          <EditUser props={props} refreshData={refetchData} />
-          <DeleteUser props={props} refreshData={refetchData} />
+          <EditUser props={props} />
+          <DeleteUser props={props} />
         </div>
       ),
     },
   ];
 
+  useEffect(() => {
+    fetchAllCompanies();
+  }, [fetchAllCompanies]);
+
   return (
     <div className="">
-      {hasHeader ? (
-        <div>
-          <h1>Dashboard</h1>
-          <div className="my-5 flex gap-5">
-            <CardData label="Active Company" />
-            <CardData label="Pending Company" />
-            <CardData label="Total Company" />
-          </div>
+      <div>
+        <h1>Dashboard</h1>
+        <div className="my-5 flex gap-5">
+          <CardData label="Active Company" />
+          <CardData label="Pending Company" />
+          <CardData label="Total Company" />
         </div>
-      ) : null}
+      </div>
 
-      {loading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <div className="flex flex-col gap-2">
-          <div className="flex justify-between items-center">
-            <Input placeholder="Search" className="w-fit" />
-            <AddData
-              refreshData={refetchData}
-              error={error}
-              formData={formData}
-              handleAddUser={handleAddUser}
-              handleChange={handleChange}
-              isLoading={isLoading}
-              label="Company"
-            />
-          </div>
-          <Card>
-            <TableData columns={columns} data={data1} />
-            <PaginationBtn />
-          </Card>
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-between items-center">
+          <Input placeholder="Search" className="w-fit" />
+          <AddData
+            refreshData={refetchData}
+            error={error}
+            formData={formData}
+            handleAddUser={handleAddUser}
+            handleChange={handleChange}
+            isLoading={isLoading}
+            label="Company"
+          />
         </div>
-      )}
+        <Card>
+          <TableData columns={columns} data={company} />
+          <PaginationBtn />
+        </Card>
+      </div>
     </div>
   );
 };

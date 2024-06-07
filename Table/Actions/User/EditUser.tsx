@@ -15,14 +15,16 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import axios, { AxiosError } from "axios";
 import { baseUrl } from "@/const/const";
+import useUserStore from "@/store/useUserStore";
+import { useToast } from "@/components/ui/use-toast";
 
 type EditUserProps = {
   props: any;
-  refreshData: () => void;
 };
 
-const EditUser: React.FC<EditUserProps> = ({ props, refreshData }) => {
-  const { name, status, email, role } = props.row.original;
+const EditUser: React.FC<EditUserProps> = ({ props }) => {
+  const { name, status, email, role, id } = props.row.original;
+  const { editUser } = useUserStore((state) => state);
   const [formData, setFormData] = useState({
     name,
     status,
@@ -47,18 +49,14 @@ const EditUser: React.FC<EditUserProps> = ({ props, refreshData }) => {
     });
   };
 
-  async function handleUpdateSite(id: string) {
-    try {
-      const response = await axios.put(
-        `${baseUrl}/api/website/update-website/${id}`,
-        formData
-      );
-      refreshData();
-    } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        console.log(error.message);
-      }
-    }
+  const { toast } = useToast();
+
+  async function handleUpdateSite() {
+    editUser(id, formData);
+    toast({
+      color: "white",
+      title: "Successful Update User",
+    });
   }
 
   return (
@@ -118,7 +116,9 @@ const EditUser: React.FC<EditUserProps> = ({ props, refreshData }) => {
           <AlertDialogCancel onClick={() => handleClose()}>
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction>Update Site</AlertDialogAction>
+          <AlertDialogAction onClick={handleUpdateSite}>
+            Update Site
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

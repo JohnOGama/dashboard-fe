@@ -1,25 +1,31 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
 
+import { Badge } from "@/components/ui/badge";
 import CardData from "@/components/Dashboard/CardData";
 import { Card } from "@/components/ui/card";
 import TableData from "@/Table/TableData";
-
 import useFetch from "@/lib/useFetch";
-
 import Link from "next/link";
-
 import { Input } from "@/components/ui/input";
-
-import AddUser from "@/Table/Users/AddUser";
-import DeleteUser from "@/Table/Users/DeleteUser";
-import EditUser from "@/Table/Users/EditUser";
-
-import data1 from "@/MOCK_DATA/Users.json";
+import AddUser from "@/Table/Actions/User/AddUser";
+import DeleteUser from "@/Table/Actions/User/DeleteUser";
+import EditUser from "@/Table/Actions/User/EditUser";
 import PaginationBtn from "@/Table/Pagination";
+import useAuthStore from "@/store/useAuthStore";
+import useUserStore from "@/store/useUserStore";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
-const Users = ({ hasHeader = true }) => {
-  const { loading, data, refetchData } = useFetch("user", "/get-all-user");
+const Users = () => {
+  const { fetchAllUsers, users, fetchSingleUser, editUser } = useUserStore(
+    (state) => state
+  );
+  const [test, setTest] = useState<any>(null);
+  const { user } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    fetchAllUsers();
+  }, [fetchAllUsers]);
 
   const columns = [
     {
@@ -44,22 +50,18 @@ const Users = ({ hasHeader = true }) => {
       header: "Status",
       accessorKey: "status",
       cell: (props: any) => {
+        const status = props.getValue();
         return (
-          <>
-            {props.getValue() === "active" ? (
-              <Badge className="bg-green-500 hover:bg-green-500/90">
-                {props.getValue()}
-              </Badge>
-            ) : (
-              <Badge className="bg-red-500 hover:bg-red-500/90">
-                {props.getValue()}
-              </Badge>
-            )}
-          </>
+          <Badge
+            className={`bg-${
+              status === "active" ? "green" : "red"
+            }-500 hover:bg-${status === "active" ? "green" : "red"}-500/90`}
+          >
+            {status}
+          </Badge>
         );
       },
     },
-
     {
       header: "Job role",
       accessorKey: "role",
@@ -67,48 +69,45 @@ const Users = ({ hasHeader = true }) => {
     {
       header: "Created At",
       accessorKey: "createdAt",
-      // cell: (props: any) => <h1>{dateFormatter(props.getValue())}</h1>,
     },
     {
       header: "Actions",
       accessorKey: "actions",
       cell: (props: any) => (
         <div className="flex gap-3">
-          {/* <EditWebsite props={props} refreshData={refetchData} /> */}
-          <EditUser props={props} refreshData={refetchData} />
-          <DeleteUser props={props} refreshData={refetchData} />
+          <EditUser props={props} />
+          <DeleteUser props={props} />
         </div>
       ),
     },
   ];
 
   return (
-    <div className="">
-      {hasHeader ? (
-        <div>
-          <h1>Dashboard</h1>
-          <div className="my-5 flex gap-5">
-            <CardData label="Active Users" />
-            <CardData label="Pending Users" />
-            <CardData label="Total Users" />
-          </div>
+    <div>
+      <div>
+        <h1>Dashboard</h1>
+        <div className="my-5 flex gap-5">
+          <CardData label="Active Users" />
+          <CardData label="Pending Users" />
+          <CardData label="Total Users" />
         </div>
-      ) : null}
+      </div>
 
-      {loading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <div className="flex flex-col gap-2">
-          <div className="flex justify-between items-center">
-            <Input placeholder="Search" className="w-fit" />
-            <AddUser refreshData={refetchData} />
-          </div>
-          <Card>
-            <TableData columns={columns} data={data1} />
-            <PaginationBtn />
-          </Card>
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-between items-center">
+          <Input
+            placeholder="Search"
+            className="w-fit"
+            value={test}
+            onChange={(e) => setTest(e.target.value)}
+          />
+
+          <AddUser />
         </div>
-      )}
+        <Card>
+          <TableData columns={columns} data={users} />
+        </Card>
+      </div>
     </div>
   );
 };

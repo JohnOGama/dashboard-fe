@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import axios, { AxiosError } from "axios";
 import { baseUrl } from "@/const/const";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 type EditWebsiteProps = {
   refreshData?: () => void;
@@ -35,8 +35,8 @@ const AddData: React.FC<EditWebsiteProps> = ({
 }) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <Button>Add {label}</Button>
+      <AlertDialogTrigger className={buttonVariants({ variant: "default" })}>
+        Add {label}
       </AlertDialogTrigger>
 
       <AlertDialogContent>

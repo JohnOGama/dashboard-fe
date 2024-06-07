@@ -11,19 +11,21 @@ import Link from "next/link";
 
 import { Input } from "@/components/ui/input";
 
-import AddUser from "@/Table/Users/AddUser";
-import DeleteUser from "@/Table/Users/DeleteUser";
-import EditUser from "@/Table/Users/EditUser";
+import AddUser from "@/Table/Actions/User/AddUser";
+import DeleteUser from "@/Table/Actions/User/DeleteUser";
+import EditUser from "@/Table/Actions/User/EditUser";
 
 import data1 from "@/MOCK_DATA/Boards.json";
 import PaginationBtn from "@/Table/Pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { baseUrl } from "@/const/const";
 import axios from "axios";
 import AddData from "@/components/Common/AddDataInTable";
+import useBoardStore from "@/store/useBoardStore";
 
 const Boards = ({ hasHeader = true }) => {
   const { loading, data, refetchData } = useFetch("user", "/get-all-user");
+  const { boards, fetchAllBoards } = useBoardStore((state) => state);
   const [formData, setFormData] = useState({
     companyName: "",
     sales: "",
@@ -106,12 +108,16 @@ const Boards = ({ hasHeader = true }) => {
       cell: (props: any) => (
         <div className="flex gap-3">
           {/* <EditWebsite props={props} refreshData={refetchData} /> */}
-          <EditUser props={props} refreshData={refetchData} />
-          <DeleteUser props={props} refreshData={refetchData} />
+          <EditUser props={props} />
+          <DeleteUser props={props} />
         </div>
       ),
     },
   ];
+
+  useEffect(() => {
+    fetchAllBoards();
+  }, [fetchAllBoards]);
 
   return (
     <div className="">
@@ -126,28 +132,24 @@ const Boards = ({ hasHeader = true }) => {
         </div>
       ) : null}
 
-      {loading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <div className="flex flex-col gap-2">
-          <div className="flex justify-between items-center">
-            <Input placeholder="Search" className="w-fit" />
-            <AddData
-              refreshData={refetchData}
-              error={error}
-              formData={formData}
-              handleAddUser={handleAddUser}
-              handleChange={handleChange}
-              isLoading={isLoading}
-              label="Boards"
-            />
-          </div>
-          <Card>
-            <TableData columns={columns} data={data1} />
-            <PaginationBtn />
-          </Card>
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-between items-center">
+          <Input placeholder="Search" className="w-fit" />
+          <AddData
+            refreshData={refetchData}
+            error={error}
+            formData={formData}
+            handleAddUser={handleAddUser}
+            handleChange={handleChange}
+            isLoading={isLoading}
+            label="Boards"
+          />
         </div>
-      )}
+        <Card>
+          <TableData columns={columns} data={boards} />
+          <PaginationBtn />
+        </Card>
+      </div>
     </div>
   );
 };

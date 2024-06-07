@@ -1,5 +1,3 @@
-import { baseUrl } from "@/const/const";
-import axios, { AxiosResponse } from "axios";
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 
@@ -12,7 +10,6 @@ export type UserDetails = {
 
 type RFState = {
   user: UserDetails;
-
   login: (email: string, password: string, token: string) => void;
   register: (username: string, email: string, password: string) => void;
   logout: () => void;

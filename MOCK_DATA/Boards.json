@@ -1,92 +1,110 @@
 [
-    {
+  {
+      "id": 1,
       "companyName": "Company A",
       "sales": 1200,
       "revenue": 150000
-    },
-    {
+  },
+  {
+      "id": 2,
       "companyName": "Company B",
       "sales": 1100,
       "revenue": 140000
-    },
-    {
+  },
+  {
+      "id": 3,
       "companyName": "Company C",
       "sales": 1300,
       "revenue": 160000
-    },
-    {
+  },
+  {
+      "id": 4,
       "companyName": "Company D",
       "sales": 900,
       "revenue": 120000
-    },
-    {
+  },
+  {
+      "id": 5,
       "companyName": "Company E",
       "sales": 1000,
       "revenue": 130000
-    },
-    {
+  },
+  {
+      "id": 6,
       "companyName": "Company F",
       "sales": 1400,
       "revenue": 170000
-    },
-    {
+  },
+  {
+      "id": 7,
       "companyName": "Company G",
       "sales": 1500,
       "revenue": 180000
-    },
-    {
+  },
+  {
+      "id": 8,
       "companyName": "Company H",
       "sales": 1600,
       "revenue": 190000
-    },
-    {
+  },
+  {
+      "id": 9,
       "companyName": "Company I",
       "sales": 1700,
       "revenue": 200000
-    },
-    {
+  },
+  {
+      "id": 10,
       "companyName": "Company J",
       "sales": 1800,
       "revenue": 210000
-    },
-    {
+  },
+  {
+      "id": 11,
       "companyName": "Company K",
       "sales": 1900,
       "revenue": 220000
-    },
-    {
+  },
+  {
+      "id": 12,
       "companyName": "Company L",
       "sales": 2000,
       "revenue": 230000
-    },
-    {
+  },
+  {
+      "id": 13,
       "companyName": "Company M",
       "sales": 2100,
       "revenue": 240000
-    },
-    {
+  },
+  {
+      "id": 14,
       "companyName": "Company N",
       "sales": 2200,
       "revenue": 250000
-    },
-    {
+  },
+  {
+      "id": 15,
       "companyName": "Company O",
       "sales": 2300,
       "revenue": 260000
-    },
-    {
+  },
+  {
+      "id": 16,
       "companyName": "Company P",
       "sales": 2400,
       "revenue": 270000
-    },
-    {
+  },
+  {
+      "id": 17,
       "companyName": "Company Q",
       "sales": 2500,
       "revenue": 280000
-    },
-    {
+  },
+  {
+      "id": 18,
       "companyName": "Company R",
       "sales": 2600,
       "revenue": 290000
-    }
+  }
 ]

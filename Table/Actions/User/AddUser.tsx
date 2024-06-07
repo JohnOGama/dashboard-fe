@@ -13,22 +13,30 @@ import {
 import { Input } from "@/components/ui/input";
 import axios, { AxiosError } from "axios";
 import { baseUrl } from "@/const/const";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import useUserStore from "@/store/useUserStore";
+import { v4 as uuidv4 } from "uuid";
+import { useToast } from "@/components/ui/use-toast";
 
 type EditWebsiteProps = {
   refreshData?: () => void;
 };
 
 const AddUser: React.FC<EditWebsiteProps> = ({ refreshData }) => {
+  const userId = uuidv4();
   const [formData, setFormData] = useState({
+    id: userId,
     name: "",
-    status: "",
     email: "",
+    status: "",
     role: "",
+    createdAt: "8:00pm",
   });
+  const { addUser } = useUserStore((state) => state);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const { toast } = useToast();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -47,41 +55,19 @@ const AddUser: React.FC<EditWebsiteProps> = ({ refreshData }) => {
       setError("All fields are required.");
       return;
     }
-
+    toast({
+      color: "white",
+      title: "Successful Add User",
+    });
     setIsLoading(true);
     setError(null);
-
-    try {
-      const response = await axios.post(
-        `${baseUrl}/api/user/add-user`,
-        formData
-      );
-      if (response.status === 200 && refreshData) {
-        refreshData();
-      }
-      setFormData({
-        name: "",
-        status: "",
-        email: "",
-        role: "",
-      });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setError(
-          error.response?.data.message || "An error occurred. Please try again."
-        );
-      } else {
-        setError("An error occurred. Please try again.");
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    addUser(formData);
   };
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <Button>Add User</Button>
+      <AlertDialogTrigger className={buttonVariants({ variant: "default" })}>
+        Add User
       </AlertDialogTrigger>
 
       <AlertDialogContent>
@@ -137,8 +123,8 @@ const AddUser: React.FC<EditWebsiteProps> = ({ refreshData }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleAddUser} disabled={isLoading}>
-            {isLoading ? "Adding..." : "Add User"}
+          <AlertDialogAction onClick={handleAddUser}>
+            Add User
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

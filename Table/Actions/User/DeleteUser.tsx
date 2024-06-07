@@ -15,23 +15,26 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import axios, { AxiosError } from "axios";
 import { baseUrl } from "@/const/const";
+import useUserStore from "@/store/useUserStore";
+import { useToast } from "@/components/ui/use-toast";
 
 type DeleteUserProps = {
   props: any;
-  refreshData: () => void;
 };
 
-const DeleteUser: React.FC<DeleteUserProps> = ({ props, refreshData }) => {
-  async function handleDeleteSite(id: any) {
-    try {
-      const res = await axios.delete(`${baseUrl}/api/user/delete-user/${id}`);
-      refreshData();
-    } catch (error) {
-      console.log("ERROR IN DELETING USER", error);
-    }
-  }
+const DeleteUser: React.FC<DeleteUserProps> = ({ props }) => {
+  const { id } = props.row.original;
+  const { deleteSingleUser } = useUserStore((state) => state);
 
-  console.log("props", props?.row.original?._id);
+  const { toast } = useToast();
+
+  async function handleDeleteSite() {
+    toast({
+      color: "white",
+      title: "Successful Delete User",
+    });
+    deleteSingleUser(id);
+  }
 
   return (
     <AlertDialog>
@@ -41,16 +44,14 @@ const DeleteUser: React.FC<DeleteUserProps> = ({ props, refreshData }) => {
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Website</AlertDialogTitle>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
+          <AlertDialogTitle>Delete User</AlertDialogTitle>
           <div>
             <h1>Are you sure?</h1>
           </div>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => handleDeleteSite(props.row.original._id)}
-          >
+          <AlertDialogAction onClick={handleDeleteSite}>
             Delete User
           </AlertDialogAction>
         </AlertDialogFooter>
