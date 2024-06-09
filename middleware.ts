@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const protectedRoutes = ["/", "/websites", "/api", "/documents", "/users"];
+const protectedRoutes = [
+  "/",
+  "/websites",
+  "/api",
+  "/documents",
+  "/users",
+  "/company",
+];
 
 export function middleware(request: NextRequest) {
   let cookie = request.cookies.get("auth")?.value;
@@ -11,7 +18,3 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(absoluteUrl.toString()));
   }
 }
-
-export const config = {
-  matcher: ["/", "/users"],
-};
