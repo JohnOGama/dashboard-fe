@@ -1,17 +1,23 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import COMPANY from "@/MOCK_DATA/Company.json";
+import { Companies } from "@/services/api";
 
 type Company = {
-  id: number;
-  name: string;
-  email: string;
-  company_name: string;
-  createdAt: string;
+  id?: number;
+  name?: string;
+  email?: string;
+  company_name?: string;
+  createdAt?: string;
+  error?: boolean;
 };
 
 type RFState = {
   company: Company[];
+  errorMessage?: string;
+  successMessage?: string;
+  onError?: boolean;
+  loading?: boolean;
   addCompany: (newCompany: Company) => void;
   fetchAllCompanies: () => void;
   fetchSingleCompany: (id: number) => Company | undefined;
@@ -29,8 +35,15 @@ const useCompanyStore = create<RFState>()(
             company: [...state.company, newCompany],
           }));
         },
-        fetchAllCompanies: () => {
-          set({ company: COMPANY });
+        fetchAllCompanies: async () => {
+          const companies = await Companies.getCompanies();
+          set({ company: companies });
+          if (companies.error)
+            set(() => ({
+              errorMessage: companies.data.message,
+              onError: true,
+              loading: false,
+            }));
         },
         fetchSingleCompany: (id) => {
           return get().company.find((company) => company.id === id);

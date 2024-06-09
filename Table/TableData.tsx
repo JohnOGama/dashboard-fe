@@ -31,6 +31,8 @@ import PaginationBtn from "./Pagination";
 type TableDataProps = {
   data: any;
   columns: any;
+  onError?: boolean;
+  errorMessage?: string;
 };
 
 const TableData: React.FC<TableDataProps> = ({ data, columns }) => {
@@ -54,6 +56,7 @@ const TableData: React.FC<TableDataProps> = ({ data, columns }) => {
   return (
     <Table>
       <TableCaption className="pb-4 ">Website</TableCaption>
+
       <TableHeader>
         {getHeaderGroups().map((headerGroup, index) => (
           <TableRow key={index}>

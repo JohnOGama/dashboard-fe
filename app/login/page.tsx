@@ -11,47 +11,33 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { baseUrl } from "@/const/const";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { redirect } from "next/navigation";
+import axios, { AxiosError } from "axios";
+
 import { useToast } from "@/components/ui/use-toast";
 import useAuthStore from "@/store/useAuthStore";
 import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const { login, user } = useAuthStore((state) => state);
+  const { login, token, errorMessage, onError, successMessage, loading } =
+    useAuthStore((state) => state);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const { toast } = useToast();
-  const [cookies, setCookie, removeCookie] = useCookies(["auth"]);
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [cookies, setCookie] = useCookies(["auth"]);
+  const router = useRouter();
 
   async function handleLogin(e: any) {
     e.preventDefault();
     try {
-      // if (!email || !password) {
-      //   setError("All fields are required");
-      // }
-      // const response: AxiosResponse = await axios.post(
-      //   `${baseUrl}/api/auth/login`,
-      //   {
-      //     email,
-      //     password,
-      //   }
-      // );
+      login(email, password, rememberMe);
+      if (token) {
+        setCookie("auth", token, { path: "/" });
 
-      // if (response.status === 200) {
-      //   const token = response.data.accessToken;
-      //   login(email, password, token);
-      //   setCookie("auth", token);
-      //   toast({
-      //     color: "white",
-      //     title: "Successful login",
-      //     description: "Redirect to dashboard",
-      //   });
-      // }
-      const token = "123";
-      login(email, password, token);
+        router.push("/");
+      }
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         setError(error.response?.data.message);
@@ -60,10 +46,10 @@ const Login = () => {
   }
 
   useEffect(() => {
-    if (user.token) {
-      redirect("/");
+    if (cookies.auth) {
+      router.push("/");
     }
-  }, [user]);
+  }, [cookies, router]);
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -73,9 +59,9 @@ const Login = () => {
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4 mt-4" onSubmit={handleLogin}>
-            {error && <h1 className="text-red-600">{error}</h1>}
+            {onError && <h1 className="text-red-600">{errorMessage}</h1>}
             <div>
-              <Label>Email</Label>
+              <Label>Username</Label>
               <Input value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div>
@@ -87,13 +73,19 @@ const Login = () => {
               />
             </div>
             <div className="flex items-center gap-3">
-              <Checkbox id="remember" />
+              <Checkbox
+                id="remember"
+                checked={rememberMe}
+                onCheckedChange={() => setRememberMe((prev) => !prev)}
+              />
               <Label htmlFor="remember" className="cursor-pointer">
                 Remember me
               </Label>
             </div>
 
-            <Button>Login</Button>
+            <Button disabled={loading} type="submit">
+              {loading ? "Submitting..." : "Login"}
+            </Button>
           </form>
         </CardContent>
         <CardFooter>

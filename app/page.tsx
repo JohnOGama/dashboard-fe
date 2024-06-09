@@ -2,7 +2,9 @@
 
 import CardData from "@/components/Dashboard/CardData";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import useAuthStore from "@/store/useAuthStore";
 import { AreaChart, BarChart, BarList, DonutChart } from "@tremor/react";
+import { redirect } from "next/navigation";
 
 const Home = ({ hasHeader = true }) => {
   const chartdata = [

@@ -1,3 +1,5 @@
+import { Auth, User } from "@/services/api";
+import axios from "axios";
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 
@@ -10,7 +12,12 @@ export type UserDetails = {
 
 type RFState = {
   user: UserDetails;
-  login: (email: string, password: string, token: string) => void;
+  token: string;
+  errorMessage?: string;
+  successMessage?: string;
+  onError?: boolean;
+  loading?: boolean;
+  login: (email: string, password: string, remember: boolean) => void;
   register: (username: string, email: string, password: string) => void;
   logout: () => void;
 };
@@ -20,15 +27,45 @@ const useAuthStore = create<RFState>()(
     persist(
       (set, get) => ({
         user: {},
+        token: "",
+        loading: false,
+        login: async (
+          username: string,
+          password: string,
+          remember: boolean
+        ) => {
+          set({ loading: true });
+          const doLoginUser = await Auth.login({
+            username,
+            password,
+            remember,
+          });
+          if (doLoginUser.data.status) {
+            // Append token here to authenticate request
+            axios.defaults.headers.common.Authorization = `Bearer ${doLoginUser.data.token}`;
+            const getUser = await User.getMe();
 
-        login: async (email: string, password: string, token: string) => {
-          if (email && password) {
-            set({ user: { email, token } });
+            set(() => ({
+              errorMessage: "",
+              onError: false,
+              loading: false,
+              token: doLoginUser.data.token,
+              user: {
+                ...getUser.data,
+              },
+            }));
+          } else {
+            set(() => ({
+              errorMessage:
+                doLoginUser.data.message || "Invalid Password or Username",
+              onError: true,
+              loading: false,
+            }));
           }
         },
         register: (username: string, email: string, password: string) => {},
         logout: () => {
-          set({ user: {} });
+          set({ user: {}, loading: false, token: "" });
         },
       }),
       {

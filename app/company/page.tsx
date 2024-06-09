@@ -32,7 +32,9 @@ const Clients = ({ hasHeader = true }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { company, fetchAllCompanies } = useCompanyStore((state) => state);
+  const { company, fetchAllCompanies, onError, errorMessage } = useCompanyStore(
+    (state) => state
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -119,6 +121,8 @@ const Clients = ({ hasHeader = true }) => {
     },
   ];
 
+  console.log("company", company);
+
   useEffect(() => {
     fetchAllCompanies();
   }, [fetchAllCompanies]);
@@ -137,6 +141,9 @@ const Clients = ({ hasHeader = true }) => {
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-center">
           <Input placeholder="Search" className="w-fit" />
+          <h1 className="flex justify-center items-center bg-red-300">
+            {onError && `Error: ${errorMessage}`}
+          </h1>
           <AddData
             refreshData={refetchData}
             error={error}
@@ -148,7 +155,13 @@ const Clients = ({ hasHeader = true }) => {
           />
         </div>
         <Card>
-          <TableData columns={columns} data={company} />
+          <TableData
+            columns={columns}
+            data={company}
+            onError={onError}
+            errorMessage={errorMessage}
+          />
+
           <PaginationBtn />
         </Card>
       </div>
