@@ -17,12 +17,12 @@ import { Button, buttonVariants } from "@/components/ui/button";
 
 type EditWebsiteProps = {
   refreshData?: () => void;
-  handleChange: any;
-  formData: any;
-  error: any;
-  handleAddUser: any;
-  isLoading: any;
-  label: string;
+  handleChange?: any;
+  formData?: any;
+  error?: any;
+  handleAddUser?: any;
+  isLoading?: any;
+  label?: string;
 };
 
 const AddData: React.FC<EditWebsiteProps> = ({

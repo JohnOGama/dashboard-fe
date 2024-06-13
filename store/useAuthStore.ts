@@ -3,11 +3,26 @@ import axios from "axios";
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 
+type UserRole = "user" | "admin" | "moderator";
+
+type RegistrationType = "self" | "admin" | "invite";
+
+type UserStatus = "active" | "inactive" | "suspended";
+
 export type UserDetails = {
-  id?: string;
-  username?: string;
+  companies?: string[];
+  createdAt?: string; // ISO date string
   email?: string;
-  token?: string;
+  firstName?: string;
+  isOnline?: boolean;
+  lastName?: string;
+  name?: string;
+  registrationType?: RegistrationType;
+  role?: UserRole;
+  status?: UserStatus;
+  updatedAt?: string;
+  username?: string;
+  verifiedEmail?: boolean;
 };
 
 type RFState = {
@@ -57,7 +72,7 @@ const useAuthStore = create<RFState>()(
           } else {
             set(() => ({
               errorMessage:
-                doLoginUser.data.message || "Invalid Password or Username",
+                doLoginUser.data.message[0] || "Invalid Password or Username",
               onError: true,
               loading: false,
             }));

@@ -16,15 +16,17 @@ import EditUser from "@/Table/Actions/User/EditUser";
 
 import data1 from "@/MOCK_DATA/Company.json";
 import PaginationBtn from "@/Table/Pagination";
+import { formatDate } from "@/utils/dateFormater";
 
 import axios from "axios";
 import { baseUrl } from "@/const/const";
 import { useEffect, useState } from "react";
 import AddData from "@/components/Common/AddDataInTable";
 import useCompanyStore from "@/store/useCompanyStore";
+import { Badge } from "@/components/ui/badge";
 
-const Clients = ({ hasHeader = true }) => {
-  const { loading, data, refetchData } = useFetch("user", "/get-all-user");
+const Company = ({ hasHeader = true }) => {
+  // const { loading, data, refetchData } = useFetch("user", "/get-all-user");
   const [formData, setFormData] = useState({
     companyName: "",
     sales: "",
@@ -32,52 +34,8 @@ const Clients = ({ hasHeader = true }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { company, fetchAllCompanies, onError, errorMessage } = useCompanyStore(
-    (state) => state
-  );
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleAddUser = async () => {
-    if (!formData.companyName || !formData.sales || !formData.revenue) {
-      setError("All fields are required.");
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await axios.post(
-        `${baseUrl}/api/user/add-user`,
-        formData
-      );
-      if (response.status === 200 && refetchData) {
-        refetchData();
-      }
-      setFormData({
-        companyName: "",
-        sales: "",
-        revenue: "",
-      });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setError(
-          error.response?.data.message || "An error occurred. Please try again."
-        );
-      } else {
-        setError("An error occurred. Please try again.");
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { company, fetchAllCompanies, onError, errorMessage, loading } =
+    useCompanyStore((state) => state);
 
   const columns = [
     {
@@ -90,8 +48,8 @@ const Clients = ({ hasHeader = true }) => {
       ),
     },
     {
-      header: "Email",
-      accessorKey: "email",
+      header: "Industry",
+      accessorKey: "industry",
       cell: ({ getValue }: any) => (
         <Link href={`${getValue()}`} className="text-gray-500 font-medium">
           {getValue()}
@@ -100,13 +58,32 @@ const Clients = ({ hasHeader = true }) => {
     },
 
     {
-      header: "Company name",
-      accessorKey: "company_name",
+      header: "Subscription",
+      accessorKey: "subscription",
+      cell: ({ getValue }: any) => {
+        return <>{getValue().type}</>;
+      },
     },
     {
-      header: "Created At",
-      accessorKey: "createdAt",
-      // cell: (props: any) => <h1>{dateFormatter(props.getValue())}</h1>,
+      header: "Status",
+      accessorKey: "status",
+      cell: (props: any) => {
+        const status = props.getValue();
+        return (
+          <Badge
+            className={`bg-${
+              status === "active" ? "green" : "red"
+            }-500 hover:bg-${status === "active" ? "green" : "red"}-500/90`}
+          >
+            {status}
+          </Badge>
+        );
+      },
+    },
+    {
+      header: "Updated At",
+      accessorKey: "updatedAt",
+      cell: (props: any) => <h1>{formatDate(props.getValue())}</h1>,
     },
     {
       header: "Actions",
@@ -121,11 +98,11 @@ const Clients = ({ hasHeader = true }) => {
     },
   ];
 
-  console.log("company", company);
-
   useEffect(() => {
     fetchAllCompanies();
   }, [fetchAllCompanies]);
+
+  console.log("loading", loading);
 
   return (
     <div className="">
@@ -141,26 +118,25 @@ const Clients = ({ hasHeader = true }) => {
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-center">
           <Input placeholder="Search" className="w-fit" />
-          <h1 className="flex justify-center items-center bg-red-300">
-            {onError && `Error: ${errorMessage}`}
-          </h1>
+
           <AddData
-            refreshData={refetchData}
             error={error}
             formData={formData}
-            handleAddUser={handleAddUser}
-            handleChange={handleChange}
             isLoading={isLoading}
             label="Company"
           />
         </div>
         <Card>
-          <TableData
-            columns={columns}
-            data={company}
-            onError={onError}
-            errorMessage={errorMessage}
-          />
+          {loading ? (
+            <h1>Loading...</h1>
+          ) : (
+            <TableData
+              columns={columns}
+              data={company}
+              onError={onError}
+              errorMessage={errorMessage}
+            />
+          )}
 
           <PaginationBtn />
         </Card>
@@ -169,4 +145,4 @@ const Clients = ({ hasHeader = true }) => {
   );
 };
 
-export default Clients;
+export default Company;

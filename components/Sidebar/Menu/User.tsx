@@ -11,15 +11,16 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
 const User = () => {
-  const { logout } = useAuthStore((state: any) => state);
+  const { logout, user } = useAuthStore((state) => state);
   const [cookies, setCookie, removeCookie] = useCookies(["auth"]);
   const { toast } = useToast();
   const router = useRouter();
+
   return (
     <Popover>
       <PopoverTrigger className="absolute bottom-14 flex items-center gap-2">
         <UserIcon size={18} className="text-gray-500" />
-        <h1 className="text-sm font-medium text-gray-500">John Ogama</h1>
+        <h1 className="text-sm font-medium text-gray-500">{user.name}</h1>
       </PopoverTrigger>
       <PopoverContent
         className="ml-5 w-auto mb-5 flex flex-col gap-5 "
