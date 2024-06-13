@@ -23,38 +23,36 @@ const PaginationBtn: React.FC<PaginationProps> = ({
   getCanNextPage,
   nextPage,
 }) => {
-  if (pageIndex === 0) {
-    return (
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <Button
-              disabled={getCanPreviousPage()}
-              variant="ghost"
-              onClick={() => previousPage()}
-            >
-              Previous
-            </Button>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink>{pageIndex + 1}</PaginationLink>
-          </PaginationItem>
-          {/* <PaginationItem>
+  return (
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <Button
+            disabled={!getCanPreviousPage()}
+            variant="ghost"
+            onClick={() => previousPage()}
+          >
+            Previous
+          </Button>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink>{pageIndex + 1}</PaginationLink>
+        </PaginationItem>
+        {/* <PaginationItem>
           <PaginationEllipsis />
         </PaginationItem> */}
-          <PaginationItem>
-            <Button
-              disabled={!getCanNextPage()}
-              variant="ghost"
-              onClick={() => nextPage()}
-            >
-              Next
-            </Button>
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    );
-  }
+        <PaginationItem>
+          <Button
+            disabled={!getCanNextPage()}
+            variant="ghost"
+            onClick={() => nextPage()}
+          >
+            Next
+          </Button>
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  );
 };
 
 export default PaginationBtn;

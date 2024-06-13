@@ -55,8 +55,7 @@ const TableData: React.FC<TableDataProps> = ({ data, columns }) => {
 
   return (
     <Table>
-      <TableCaption className="pb-4 ">Website</TableCaption>
-
+      <TableCaption className="pb-4 "></TableCaption>
       <TableHeader>
         {getHeaderGroups().map((headerGroup, index) => (
           <TableRow key={index}>
@@ -72,7 +71,7 @@ const TableData: React.FC<TableDataProps> = ({ data, columns }) => {
         ))}
       </TableHeader>
       <TableBody>
-        {getRowModel().rows.map((row, index) => (
+        {getRowModel()?.rows?.map((row, index) => (
           <TableRow key={index}>
             {row.getVisibleCells().map((cell, index) => (
               <TableCell key={index} className={`text-gray-700 `}>
@@ -82,7 +81,14 @@ const TableData: React.FC<TableDataProps> = ({ data, columns }) => {
           </TableRow>
         ))}
       </TableBody>
-      <PaginationBtn />
+
+      <PaginationBtn
+        getCanNextPage={getCanNextPage}
+        getCanPreviousPage={getCanPreviousPage}
+        nextPage={nextPage}
+        pageIndex={pageIndex}
+        previousPage={previousPage}
+      />
     </Table>
   );
 };

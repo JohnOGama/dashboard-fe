@@ -4,22 +4,16 @@ import CardData from "@/components/Dashboard/CardData";
 import { Card } from "@/components/ui/card";
 import TableData from "@/Table/TableData";
 
-import useFetch from "@/lib/useFetch";
-
 import Link from "next/link";
 
 import { Input } from "@/components/ui/input";
 
-import AddUser from "@/Table/Actions/User/AddUser";
 import DeleteUser from "@/Table/Actions/User/DeleteUser";
 import EditUser from "@/Table/Actions/User/EditUser";
 
-import data1 from "@/MOCK_DATA/Company.json";
 import PaginationBtn from "@/Table/Pagination";
 import { formatDate } from "@/utils/dateFormater";
 
-import axios from "axios";
-import { baseUrl } from "@/const/const";
 import { useEffect, useState } from "react";
 import AddData from "@/components/Common/AddDataInTable";
 import useCompanyStore from "@/store/useCompanyStore";
@@ -34,7 +28,7 @@ const Company = ({ hasHeader = true }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { company, fetchAllCompanies, onError, errorMessage, loading } =
+  const { companies, fetchAllCompanies, onError, errorMessage, loading } =
     useCompanyStore((state) => state);
 
   const columns = [
@@ -102,16 +96,20 @@ const Company = ({ hasHeader = true }) => {
     fetchAllCompanies();
   }, [fetchAllCompanies]);
 
-  console.log("loading", loading);
+  console.log("com", companies);
+
+  const activeCompanies = companies.data?.rows?.filter(
+    (company) => company.status === "active"
+  ).length;
 
   return (
     <div className="">
       <div>
         <h1>Dashboard</h1>
         <div className="my-5 flex gap-5">
-          <CardData label="Active Company" />
+          <CardData label="Active Company" count={activeCompanies} />
           <CardData label="Pending Company" />
-          <CardData label="Total Company" />
+          <CardData label="Total Company" count={companies.data?.count} />
         </div>
       </div>
 
@@ -132,13 +130,11 @@ const Company = ({ hasHeader = true }) => {
           ) : (
             <TableData
               columns={columns}
-              data={company}
+              data={companies?.data?.rows || companies}
               onError={onError}
               errorMessage={errorMessage}
             />
           )}
-
-          <PaginationBtn />
         </Card>
       </div>
     </div>

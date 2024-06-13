@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import COMPANY from "@/MOCK_DATA/Company.json";
 import { Companies } from "@/services/api";
+import { count } from "console";
 
 interface Subscription {
   type: string;
@@ -12,7 +13,7 @@ interface User {
   actionRole: string;
 }
 
-interface Company {
+interface Comapanies {
   _id: string;
   companySize: number;
   createdAt: string;
@@ -28,13 +29,17 @@ interface Company {
   users: User[];
 }
 
+interface Data {
+  data?: { count?: number; rows?: Comapanies[]; statusCode?: number };
+}
+
 type RFState = {
-  company: Company[];
+  companies: Data;
   errorMessage?: string;
   successMessage?: string;
   onError?: boolean;
   loading?: boolean;
-  addCompany: (newCompany: Company) => void;
+  // addCompany: (newCompany: Company) => void;
   fetchAllCompanies: () => void;
   // fetchSingleCompany: (id: number) => Company | undefined;
   // updateCompany: (id: number, updatedCompany: Partial<Company>) => void;
@@ -44,31 +49,30 @@ type RFState = {
 const useCompanyStore = create<RFState>()(
   devtools(
     (set, get) => ({
-      company: [],
-      addCompany: (newCompany) => {
-        set((state) => ({
-          company: [...state.company, newCompany],
-        }));
-      },
+      companies: {},
       fetchAllCompanies: async () => {
-        set({ loading: true });
-        const companies = await Companies.getCompanies();
+        set({ loading: true, onError: false, errorMessage: "" });
 
-        console.log("compan", companies);
-        if (companies.statusCode === 200) {
-          set(() => ({
-            company: companies.data.rows,
-            loading: false,
-            onError: false,
-            errorMessage: "",
-          }));
-        } else {
-          set(() => ({
-            errorMessage: companies.data.message,
-            onError: true,
-            loading: false,
-          }));
-        }
+        const response = await Companies.getCompanies();
+        set({
+          companies: response,
+          loading: false,
+        });
+
+        // if (response.statusCode === 200) {
+        //   set({
+        //     companies: response,
+        //     loading: false,
+        //     onError: false,
+        //     errorMessage: "",
+        //   });
+        // } else {
+        //   set({
+        //     errorMessage: response.data.message,
+        //     onError: true,
+        //     loading: false,
+        //   });
+        // }
       },
       // fetchSingleCompany: (id) => {
       //   return get().company.find((company) => company.id === id);

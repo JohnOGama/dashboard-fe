@@ -3,10 +3,14 @@
 import CardData from "@/components/Dashboard/CardData";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import useAuthStore from "@/store/useAuthStore";
+import useCompanyStore from "@/store/useCompanyStore";
+import useUserStore from "@/store/useUserStore";
 import { AreaChart, BarChart, BarList, DonutChart } from "@tremor/react";
 import { redirect } from "next/navigation";
 
 const Home = ({ hasHeader = true }) => {
+  const { users } = useUserStore((state) => state);
+  const { companies } = useCompanyStore((state) => state);
   const chartdata = [
     { date: "Jan 23", SolarPanels: 2890, Inverters: 2338 },
     { date: "Feb 23", SolarPanels: 2756, Inverters: 2103 },
@@ -158,8 +162,8 @@ const Home = ({ hasHeader = true }) => {
         <div>
           <h1>Dashboard</h1>
           <div className="my-5 flex gap-5">
-            <CardData label="Users" />
-            <CardData label="Clients" />
+            <CardData label="Users" count={users.data?.count} />
+            <CardData label="Companies" count={companies.data?.count} />
             <CardData label="Boards" />
           </div>
         </div>

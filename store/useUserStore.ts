@@ -1,23 +1,38 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import USERS from "@/MOCK_DATA/Users.json";
+import { User } from "@/services/api/user";
 
-type Users = {
-  id: any;
-  name: string;
+interface Users {
+  _id: string;
+  createdAt: string;
   email: string;
-  createdAt: any;
+  firstName: string;
+  isOnline: boolean;
+  lastName: string;
+  name: string;
+  registrationType: string;
   role: string;
+  status: string;
+  updatedAt: string;
+  username: string;
+  verifiedEmail: boolean;
+}
+
+type Data = {
+  data?: {
+    count?: number;
+    rows?: Users[];
+  };
+  statusCode?: number;
 };
 
 type RFState = {
-  users: Users[];
-  isLoading: boolean;
-  addUser: (newUser: Users) => void;
+  users: Data;
+  loading: boolean;
+  onError: boolean;
+  errorMessage: string;
+
   fetchAllUsers: () => void;
-  fetchSingleUser: (id: any) => void;
-  deleteSingleUser: (id: any) => void;
-  editUser: (id: any, editedUser: Partial<Users>) => void;
 };
 
 const useUserStore = create<RFState>()(
@@ -25,45 +40,17 @@ const useUserStore = create<RFState>()(
     persist(
       (set, get) => ({
         users: [],
-        isLoading: false,
-        addUser: (newUser) => {
-          set((state) => ({
-            users: [newUser, ...state.users],
-          }));
-        },
-        fetchAllUsers: () => {
+        loading: false,
+        onError: false,
+        errorMessage: "",
+        fetchAllUsers: async () => {
+          const users = await User.getAllUsers();
+          set({ loading: true, onError: false, errorMessage: "" });
           try {
-            set({ isLoading: true });
-            set({ users: USERS });
-          } catch (error) {
-            set({ isLoading: false });
-            console.log("error fetching all users", error);
-          } finally {
-            set({ isLoading: false });
-          }
-        },
-        fetchSingleUser: (id) => {
-          if (!id) return undefined;
+            const response = await User.getAllUsers();
 
-          const user = get().users.find((user) => user.id === id);
-          return user;
-        },
-        deleteSingleUser: (id) => {
-          set((state) => ({
-            users: state.users.filter((user) => user.id !== id),
-          }));
-        },
-        editUser: (id, editedUser) => {
-          if (!id) return;
-
-          const updatedUsers = get().users.map((user) => {
-            if (user.id === id) {
-              return { ...user, ...editedUser };
-            }
-            return user;
-          });
-
-          set({ users: updatedUsers });
+            set({ users: response });
+          } catch (error) {}
         },
       }),
       {

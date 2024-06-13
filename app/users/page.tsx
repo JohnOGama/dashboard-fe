@@ -15,11 +15,10 @@ import useAuthStore from "@/store/useAuthStore";
 import useUserStore from "@/store/useUserStore";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { formatDate } from "@/utils/dateFormater";
 
 const Users = () => {
-  const { fetchAllUsers, users, fetchSingleUser, editUser } = useUserStore(
-    (state) => state
-  );
+  const { fetchAllUsers, users } = useUserStore((state) => state);
   const [test, setTest] = useState<any>(null);
   const { user } = useAuthStore((state) => state);
 
@@ -67,8 +66,13 @@ const Users = () => {
       accessorKey: "role",
     },
     {
-      header: "Created At",
-      accessorKey: "createdAt",
+      header: "Verified Email",
+      accessorKey: "verifiedEmail",
+    },
+    {
+      header: "Updated At",
+      accessorKey: "updatedAt",
+      cell: (props: any) => <h1>{formatDate(props.getValue())}</h1>,
     },
     {
       header: "Actions",
@@ -82,14 +86,22 @@ const Users = () => {
     },
   ];
 
+  const unverifiedEmails = users.data?.rows?.filter(
+    (user) => user.verifiedEmail === false
+  ).length;
+
+  const activeUsers = users.data?.rows?.filter(
+    (user) => user.status === "active"
+  ).length;
+
   return (
     <div>
       <div>
         <h1>Dashboard</h1>
         <div className="my-5 flex gap-5">
-          <CardData label="Active Users" />
-          <CardData label="Pending Users" />
-          <CardData label="Total Users" />
+          <CardData label="Active Users" count={activeUsers} />
+          <CardData label="Unverified email" count={unverifiedEmails} />
+          <CardData label="Total Users" count={users.data?.count} />
         </div>
       </div>
 
@@ -105,7 +117,7 @@ const Users = () => {
           <AddUser />
         </div>
         <Card>
-          <TableData columns={columns} data={users} />
+          <TableData columns={columns} data={users.data?.rows} />
         </Card>
       </div>
     </div>
