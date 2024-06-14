@@ -54,34 +54,38 @@ const TableData: React.FC<TableDataProps> = ({ data, columns }) => {
   const { pageIndex } = getState().pagination;
 
   return (
-    <Table>
-      <TableCaption className="pb-4 "></TableCaption>
-      <TableHeader>
-        {getHeaderGroups().map((headerGroup, index) => (
-          <TableRow key={index}>
-            {headerGroup.headers.map((header, index) => (
-              <TableHead key={index} className={`text-gray-500 font-semibold`}>
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext()
-                )}
-              </TableHead>
-            ))}
-          </TableRow>
-        ))}
-      </TableHeader>
-      <TableBody>
-        {getRowModel()?.rows?.map((row, index) => (
-          <TableRow key={index}>
-            {row.getVisibleCells().map((cell, index) => (
-              <TableCell key={index} className={`text-gray-700 `}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </TableBody>
-
+    <>
+      <Table>
+        {/* <TableCaption className="pb-4 "></TableCaption> */}
+        <TableHeader>
+          {getHeaderGroups().map((headerGroup, index) => (
+            <TableRow key={index}>
+              {headerGroup.headers.map((header, index) => (
+                <TableHead
+                  key={index}
+                  className={`text-gray-500 font-semibold`}
+                >
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {getRowModel()?.rows?.map((row, index) => (
+            <TableRow key={index}>
+              {row.getVisibleCells().map((cell, index) => (
+                <TableCell key={index} className={`text-gray-700 `}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
       <PaginationBtn
         getCanNextPage={getCanNextPage}
         getCanPreviousPage={getCanPreviousPage}
@@ -89,7 +93,7 @@ const TableData: React.FC<TableDataProps> = ({ data, columns }) => {
         pageIndex={pageIndex}
         previousPage={previousPage}
       />
-    </Table>
+    </>
   );
 };
 

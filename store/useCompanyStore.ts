@@ -13,7 +13,7 @@ interface User {
   actionRole: string;
 }
 
-interface Comapanies {
+export interface Comapanies {
   _id: string;
   companySize: number;
   createdAt: string;
@@ -29,7 +29,7 @@ interface Comapanies {
   users: User[];
 }
 
-interface Data {
+export interface Data {
   data?: { count?: number; rows?: Comapanies[]; statusCode?: number };
 }
 
@@ -41,6 +41,7 @@ type RFState = {
   loading?: boolean;
   // addCompany: (newCompany: Company) => void;
   fetchAllCompanies: () => void;
+  updateCompanies: (data: Partial<Comapanies>) => void;
   // fetchSingleCompany: (id: number) => Company | undefined;
   // updateCompany: (id: number, updatedCompany: Partial<Company>) => void;
   // deleteCompany: (id: number) => void;
@@ -73,6 +74,13 @@ const useCompanyStore = create<RFState>()(
         //     loading: false,
         //   });
         // }
+      },
+      updateCompanies: async (data: Partial<Comapanies>) => {
+        if (!data._id) return;
+
+        const response = await Companies.updateCompany(data);
+
+        console.log("response update", response);
       },
       // fetchSingleCompany: (id) => {
       //   return get().company.find((company) => company.id === id);

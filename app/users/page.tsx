@@ -117,7 +117,7 @@ const Users = () => {
           <AddUser />
         </div>
         <Card>
-          <TableData columns={columns} data={users.data?.rows} />
+          <TableData columns={columns} data={users.data?.rows || users} />
         </Card>
       </div>
     </div>

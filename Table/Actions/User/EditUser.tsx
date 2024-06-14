@@ -24,7 +24,7 @@ type EditUserProps = {
 
 const EditUser: React.FC<EditUserProps> = ({ props }) => {
   const { name, status, email, role, id } = props.row.original;
-  const { editUser } = useUserStore((state) => state);
+
   const [formData, setFormData] = useState({
     name,
     status,
@@ -52,7 +52,6 @@ const EditUser: React.FC<EditUserProps> = ({ props }) => {
   const { toast } = useToast();
 
   async function handleUpdateSite() {
-    editUser(id, formData);
     toast({
       color: "white",
       title: "Successful Update User",

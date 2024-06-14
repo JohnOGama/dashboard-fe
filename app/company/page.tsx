@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import AddData from "@/components/Common/AddDataInTable";
 import useCompanyStore from "@/store/useCompanyStore";
 import { Badge } from "@/components/ui/badge";
+import EditCompany from "@/Table/Actions/Company/EditCompany";
 
 const Company = ({ hasHeader = true }) => {
   // const { loading, data, refetchData } = useFetch("user", "/get-all-user");
@@ -59,6 +60,10 @@ const Company = ({ hasHeader = true }) => {
       },
     },
     {
+      header: "Company size",
+      accessorKey: "companySize",
+    },
+    {
       header: "Status",
       accessorKey: "status",
       cell: (props: any) => {
@@ -85,7 +90,7 @@ const Company = ({ hasHeader = true }) => {
       cell: (props: any) => (
         <div className="flex gap-3">
           {/* <EditWebsite props={props} refreshData={refetchData} /> */}
-          <EditUser props={props} />
+          <EditCompany props={props} />
           <DeleteUser props={props} />
         </div>
       ),
@@ -95,8 +100,6 @@ const Company = ({ hasHeader = true }) => {
   useEffect(() => {
     fetchAllCompanies();
   }, [fetchAllCompanies]);
-
-  console.log("com", companies);
 
   const activeCompanies = companies.data?.rows?.filter(
     (company) => company.status === "active"
@@ -125,16 +128,12 @@ const Company = ({ hasHeader = true }) => {
           />
         </div>
         <Card>
-          {loading ? (
-            <h1>Loading...</h1>
-          ) : (
-            <TableData
-              columns={columns}
-              data={companies?.data?.rows || companies}
-              onError={onError}
-              errorMessage={errorMessage}
-            />
-          )}
+          <TableData
+            columns={columns}
+            data={companies?.data?.rows || companies}
+            onError={onError}
+            errorMessage={errorMessage}
+          />
         </Card>
       </div>
     </div>

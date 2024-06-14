@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 type PaginationProps = {
-  pageIndex?: number;
+  pageIndex: number;
   getCanPreviousPage?: any;
   previousPage?: any;
   getCanNextPage?: any;
