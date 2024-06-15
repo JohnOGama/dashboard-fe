@@ -24,10 +24,10 @@ type EditUserProps = {
 // Define Zod schema for form validation
 const CompanySchema = z.object({
   _id: z.string(),
-  name: z.string().min(1, "Name is required"),
-  industry: z.string().min(1, "Industry is required"),
+  name: z.string(),
+  industry: z.string(),
   subscription: z.object({
-    type: z.string().min(1, "Subscription type is required"),
+    type: z.string(),
   }),
 });
 
@@ -84,7 +84,7 @@ const EditCompany: React.FC<EditUserProps> = ({ props }) => {
       fetchAllCompanies();
       toast({
         color: "white",
-        title: "Successful Update User",
+        title: "Successful Update Company",
       });
     } catch (error) {
       toast({

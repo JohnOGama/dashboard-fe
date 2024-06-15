@@ -19,6 +19,7 @@ import AddData from "@/components/Common/AddDataInTable";
 import useCompanyStore from "@/store/useCompanyStore";
 import { Badge } from "@/components/ui/badge";
 import EditCompany from "@/Table/Actions/Company/EditCompany";
+import AddCompany from "@/Table/Actions/Company/AddCompany";
 
 const Company = ({ hasHeader = true }) => {
   // const { loading, data, refetchData } = useFetch("user", "/get-all-user");
@@ -120,12 +121,7 @@ const Company = ({ hasHeader = true }) => {
         <div className="flex justify-between items-center">
           <Input placeholder="Search" className="w-fit" />
 
-          <AddData
-            error={error}
-            formData={formData}
-            isLoading={isLoading}
-            label="Company"
-          />
+          <AddCompany />
         </div>
         <Card>
           <TableData

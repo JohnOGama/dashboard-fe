@@ -3,6 +3,8 @@ import { devtools, persist } from "zustand/middleware";
 import COMPANY from "@/MOCK_DATA/Company.json";
 import { Companies } from "@/services/api";
 import { count } from "console";
+import { flightRouterStateSchema } from "next/dist/server/app-render/types";
+import { AxiosError } from "axios";
 
 interface Subscription {
   type: string;
@@ -39,7 +41,7 @@ type RFState = {
   successMessage?: string;
   onError?: boolean;
   loading?: boolean;
-  // addCompany: (newCompany: Company) => void;
+  addCompany: (newCompany: Comapanies) => void;
   fetchAllCompanies: () => void;
   updateCompanies: (data: Partial<Comapanies>) => void;
   // fetchSingleCompany: (id: number) => Company | undefined;
@@ -55,32 +57,47 @@ const useCompanyStore = create<RFState>()(
         set({ loading: true, onError: false, errorMessage: "" });
 
         const response = await Companies.getCompanies();
-        set({
-          companies: response,
-          loading: false,
-        });
 
-        // if (response.statusCode === 200) {
-        //   set({
-        //     companies: response,
-        //     loading: false,
-        //     onError: false,
-        //     errorMessage: "",
-        //   });
-        // } else {
-        //   set({
-        //     errorMessage: response.data.message,
-        //     onError: true,
-        //     loading: false,
-        //   });
-        // }
+        if (response.statusCode === 200) {
+          set({
+            companies: response,
+            loading: false,
+            onError: false,
+            errorMessage: "",
+          });
+        } else {
+          set({
+            errorMessage: response.data.message,
+            onError: true,
+            loading: false,
+          });
+        }
       },
       updateCompanies: async (data: Partial<Comapanies>) => {
         if (!data._id) return;
-
-        const response = await Companies.updateCompany(data);
-
-        console.log("response update", response);
+        set({ loading: true });
+        try {
+          const response = await Companies.updateCompany(data);
+          if (response.statusCode === 200) {
+            set({ loading: false, onError: false, errorMessage: "" });
+          } else {
+            set({
+              loading: false,
+              onError: true,
+              errorMessage: response.data.message || "Error updating company",
+            });
+          }
+        } catch (error) {
+          set({ loading: false, onError: true });
+          if (error instanceof AxiosError) {
+            set({ errorMessage: error.message });
+          }
+        }
+      },
+      addCompany: async (data: Comapanies) => {
+        const response = await Companies.addCompany(data);
+        console.log("res", response);
+        console.log("data", data);
       },
       // fetchSingleCompany: (id) => {
       //   return get().company.find((company) => company.id === id);

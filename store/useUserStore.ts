@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { User } from "@/services/api/user";
 
-interface Users {
+export interface Users {
   _id: string;
   createdAt: string;
   email: string;
@@ -33,6 +33,8 @@ type RFState = {
   errorMessage: string;
 
   fetchAllUsers: () => void;
+  updateUser: (data: Partial<Users>) => void;
+  deleteUser: (id: any) => void;
 };
 
 const useUserStore = create<RFState>()(
@@ -51,6 +53,35 @@ const useUserStore = create<RFState>()(
 
             set({ users: response });
           } catch (error) {}
+        },
+        updateUser: async (data) => {
+          if (!data._id) return;
+          set({ loading: true });
+          const response = await User.updateUser(data);
+          if (response.statusCode === 200) {
+            set({ loading: false, onError: false, errorMessage: "" });
+          } else {
+            set({
+              loading: false,
+              onError: true,
+              errorMessage: response.data.message || "Error updating user",
+            });
+          }
+        },
+        deleteUser: async (id: any) => {
+          if (!id) return;
+
+          set({ loading: true });
+          const response = await User.deleteUser(id);
+          if (response.statusCode === 200) {
+            set({ loading: false, onError: false, errorMessage: "" });
+          } else {
+            set({
+              loading: false,
+              onError: true,
+              errorMessage: response.data.message || "Error updating user",
+            });
+          }
         },
       }),
       {
