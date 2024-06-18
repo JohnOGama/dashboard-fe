@@ -44,6 +44,7 @@ type RFState = {
   addCompany: (newCompany: Comapanies) => void;
   fetchAllCompanies: () => void;
   updateCompanies: (data: Partial<Comapanies>) => void;
+  deleteCompany: (id: any) => void;
   // fetchSingleCompany: (id: number) => Company | undefined;
   // updateCompany: (id: number, updatedCompany: Partial<Company>) => void;
   // deleteCompany: (id: number) => void;
@@ -78,6 +79,7 @@ const useCompanyStore = create<RFState>()(
         set({ loading: true });
         try {
           const response = await Companies.updateCompany(data);
+          console.log("res", response);
           if (response.statusCode === 200) {
             set({ loading: false, onError: false, errorMessage: "" });
           } else {
@@ -98,6 +100,22 @@ const useCompanyStore = create<RFState>()(
         const response = await Companies.addCompany(data);
         console.log("res", response);
         console.log("data", data);
+      },
+      deleteCompany: async (id: any) => {
+        if (!id) return;
+
+        set({ loading: true });
+        const response = await Companies.deleteCompany(id);
+
+        if (response.statusCode === 200) {
+          set({ loading: false, onError: false, errorMessage: "" });
+        } else {
+          set({
+            loading: false,
+            onError: true,
+            errorMessage: response.data.message || "Error updating user",
+          });
+        }
       },
       // fetchSingleCompany: (id) => {
       //   return get().company.find((company) => company.id === id);

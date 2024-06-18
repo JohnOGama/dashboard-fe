@@ -20,6 +20,7 @@ import useCompanyStore from "@/store/useCompanyStore";
 import { Badge } from "@/components/ui/badge";
 import EditCompany from "@/Table/Actions/Company/EditCompany";
 import AddCompany from "@/Table/Actions/Company/AddCompany";
+import DeleteCompany from "@/Table/Actions/Company/DeleteCompany";
 
 const Company = ({ hasHeader = true }) => {
   // const { loading, data, refetchData } = useFetch("user", "/get-all-user");
@@ -90,9 +91,8 @@ const Company = ({ hasHeader = true }) => {
       accessorKey: "actions",
       cell: (props: any) => (
         <div className="flex gap-3">
-          {/* <EditWebsite props={props} refreshData={refetchData} /> */}
           <EditCompany props={props} />
-          <DeleteUser props={props} />
+          <DeleteCompany props={props} />
         </div>
       ),
     },

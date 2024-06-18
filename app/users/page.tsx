@@ -46,6 +46,10 @@ const Users = () => {
       ),
     },
     {
+      header: "Username",
+      accessorKey: "username",
+    },
+    {
       header: "Status",
       accessorKey: "status",
       cell: (props: any) => {

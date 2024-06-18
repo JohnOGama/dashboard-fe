@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { User } from "@/services/api/user";
+import { AxiosError } from "axios";
 
 export interface Users {
   _id: string;
@@ -54,18 +55,27 @@ const useUserStore = create<RFState>()(
             set({ users: response });
           } catch (error) {}
         },
-        updateUser: async (data) => {
+        updateUser: async (data: Partial<Users>) => {
           if (!data._id) return;
+          console.log("datazdata", data);
           set({ loading: true });
-          const response = await User.updateUser(data);
-          if (response.statusCode === 200) {
-            set({ loading: false, onError: false, errorMessage: "" });
-          } else {
-            set({
-              loading: false,
-              onError: true,
-              errorMessage: response.data.message || "Error updating user",
-            });
+          try {
+            const response = await User.updateUser(data);
+            console.log("dataz", response);
+            if (response.statusCode === 200) {
+              set({ loading: false, onError: false, errorMessage: "" });
+            } else {
+              set({
+                loading: false,
+                onError: true,
+                errorMessage: response.data.message || "Error updating user",
+              });
+            }
+          } catch (error) {
+            set({ loading: false, onError: true });
+            if (error instanceof AxiosError) {
+              set({ errorMessage: error.message });
+            }
           }
         },
         deleteUser: async (id: any) => {
@@ -73,6 +83,7 @@ const useUserStore = create<RFState>()(
 
           set({ loading: true });
           const response = await User.deleteUser(id);
+
           if (response.statusCode === 200) {
             set({ loading: false, onError: false, errorMessage: "" });
           } else {

@@ -10,31 +10,29 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Edit, Edit2Icon } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import axios, { AxiosError } from "axios";
-import { baseUrl } from "@/const/const";
-import useUserStore from "@/store/useUserStore";
 import { useToast } from "@/components/ui/use-toast";
+import useCompanyStore from "@/store/useCompanyStore";
 
-type DeleteUserProps = {
+type DeleteCompanyProps = {
   props: any;
 };
 
-const DeleteUser: React.FC<DeleteUserProps> = ({ props }) => {
+const DeleteCompany: React.FC<DeleteCompanyProps> = ({ props }) => {
   const { _id } = props.row.original;
-  const { deleteUser, fetchAllUsers } = useUserStore((state) => state);
+  const { deleteCompany, fetchAllCompanies } = useCompanyStore(
+    (state) => state
+  );
 
   const { toast } = useToast();
 
-  async function handleDeleteSite() {
-    fetchAllUsers();
+  async function handleDeleteCompany() {
+    fetchAllCompanies();
     toast({
       color: "white",
-      title: "Successful Delete User",
+      title: "Successful Delete Company",
     });
-    deleteUser(_id);
+    deleteCompany(_id);
   }
 
   return (
@@ -45,15 +43,15 @@ const DeleteUser: React.FC<DeleteUserProps> = ({ props }) => {
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete User</AlertDialogTitle>
+          <AlertDialogTitle>Delete Company</AlertDialogTitle>
           <div>
             <h1>Are you sure?</h1>
           </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteSite}>
-            Delete User
+          <AlertDialogAction onClick={handleDeleteCompany}>
+            Delete Company
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -61,4 +59,4 @@ const DeleteUser: React.FC<DeleteUserProps> = ({ props }) => {
   );
 };
 
-export default DeleteUser;
+export default DeleteCompany;
