@@ -25,7 +25,8 @@ type EditUserProps = {
 // Define Zod schema for form validation
 const UserSchema = z.object({
   _id: z.string(),
-  name: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
   email: z.string(),
   role: z.string(),
   username: z.string(),
@@ -34,7 +35,8 @@ const UserSchema = z.object({
 type UserFormData = z.infer<typeof UserSchema>;
 
 const EditUser: React.FC<EditUserProps> = ({ props }) => {
-  const { _id, name, email, role, username } = props.row.original;
+  const { _id, name, email, role, username, firstName, lastName } =
+    props.row.original;
   const { updateUser, fetchAllUsers } = useUserStore((state) => state);
   const { toast } = useToast();
 
@@ -48,7 +50,8 @@ const EditUser: React.FC<EditUserProps> = ({ props }) => {
     resolver: zodResolver(UserSchema),
     defaultValues: {
       _id,
-      name,
+      firstName,
+      lastName,
       email,
       role,
       username,
@@ -57,7 +60,8 @@ const EditUser: React.FC<EditUserProps> = ({ props }) => {
 
   const [initialValues, setInitialValues] = useState({
     _id,
-    name,
+    firstName,
+    lastName,
     email,
     role,
     username,
@@ -66,12 +70,13 @@ const EditUser: React.FC<EditUserProps> = ({ props }) => {
   useEffect(() => {
     setInitialValues({
       _id,
-      name,
+      firstName,
+      lastName,
       email,
       role,
       username,
     });
-  }, [_id, name, email, role, username]);
+  }, [_id, firstName, lastName, email, role, username]);
 
   const onSubmit = async (data: UserFormData) => {
     const hasChanged = JSON.stringify(data) !== JSON.stringify(initialValues);
@@ -118,15 +123,27 @@ const EditUser: React.FC<EditUserProps> = ({ props }) => {
           <AlertDialogTitle>Update User</AlertDialogTitle>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-4 mt-4">
-              <div>
-                <label htmlFor="name">Name</label>
-                <Input
-                  type="text"
-                  {...register("name")}
-                  className="mt-1 w-full"
-                />
-                {errors.name && <p>{errors.name.message}</p>}
+              <div className="flex gap-2 items-center">
+                <div>
+                  <label htmlFor="name">First name</label>
+                  <Input
+                    type="text"
+                    {...register("firstName")}
+                    className="mt-1 w-full"
+                  />
+                  {errors.firstName && <p>{errors.firstName.message}</p>}
+                </div>
+                <div>
+                  <label htmlFor="name">Last name</label>
+                  <Input
+                    type="text"
+                    {...register("lastName")}
+                    className="mt-1 w-full"
+                  />
+                  {errors.lastName && <p>{errors.lastName.message}</p>}
+                </div>
               </div>
+
               <div>
                 <label htmlFor="username">Username</label>
                 <Input
@@ -134,7 +151,6 @@ const EditUser: React.FC<EditUserProps> = ({ props }) => {
                   {...register("username")}
                   className="mt-1 w-full"
                 />
-                {errors.name && <p>{errors.name.message}</p>}
               </div>
               <div>
                 <label htmlFor="email">Email</label>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,12 +29,12 @@ const DeleteUser: React.FC<DeleteUserProps> = ({ props }) => {
   const { toast } = useToast();
 
   async function handleDeleteSite() {
-    fetchAllUsers();
     toast({
       color: "white",
       title: "Successful Delete User",
     });
     deleteUser(_id);
+    fetchAllUsers();
   }
 
   return (

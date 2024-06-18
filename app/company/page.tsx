@@ -24,14 +24,6 @@ import DeleteCompany from "@/Table/Actions/Company/DeleteCompany";
 import LoadingSpinner from "@/components/Common/Loading";
 
 const Company = ({ hasHeader = true }) => {
-  // const { loading, data, refetchData } = useFetch("user", "/get-all-user");
-  const [formData, setFormData] = useState({
-    companyName: "",
-    sales: "",
-    revenue: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const { companies, fetchAllCompanies, onError, errorMessage, loading } =
     useCompanyStore((state) => state);
 

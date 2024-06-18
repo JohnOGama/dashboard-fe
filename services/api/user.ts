@@ -7,4 +7,5 @@ export const User = {
   updateUser: (data: Partial<Users>) =>
     requests.put(`/api/admin/users/${data._id}`, data),
   deleteUser: (id: any) => requests.delete(`/api/admin/users/${id}`),
+  addUser: (data: Partial<Users>) => requests.post("/api/admin/users", data),
 };

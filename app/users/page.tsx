@@ -16,9 +16,10 @@ import useUserStore from "@/store/useUserStore";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/utils/dateFormater";
+import LoadingSpinner from "@/components/Common/Loading";
 
 const Users = () => {
-  const { fetchAllUsers, users } = useUserStore((state) => state);
+  const { fetchAllUsers, users, loading } = useUserStore((state) => state);
   const [test, setTest] = useState<any>(null);
   const { user } = useAuthStore((state) => state);
 
@@ -120,9 +121,15 @@ const Users = () => {
 
           <AddUser />
         </div>
-        <Card>
-          <TableData columns={columns} data={users.data?.rows || users} />
-        </Card>
+        {loading ? (
+          <div className="flex justify-center items-center h-[40vh]">
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <Card>
+            <TableData columns={columns} data={users.data?.rows || users} />
+          </Card>
+        )}
       </div>
     </div>
   );

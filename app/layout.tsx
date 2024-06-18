@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const inter = Montserrat({
   subsets: ["latin"],
@@ -26,10 +27,9 @@ export default function RootLayout({
           <aside>
             <Sidebar />
           </aside>
-
-          <main className="bg-[#F1F4F6] h-screen w-full overflow-y-auto px-10 py-5">
-            {children}
-          </main>
+          <ScrollArea className=" h-screen w-full overflow-y-auto px-10 py-5 bg-[#F1F4F6] ">
+            <main className="">{children}</main>
+          </ScrollArea>
         </div>
         <Toaster />
       </body>
