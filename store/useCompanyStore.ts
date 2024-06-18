@@ -17,7 +17,7 @@ interface User {
 
 export interface Comapanies {
   _id: string;
-  companySize: number;
+  companySize: any;
   createdAt: string;
   createdBy: string;
   industry: string;
@@ -31,6 +31,11 @@ export interface Comapanies {
   users: User[];
 }
 
+export interface CompanyResponse {
+  statusCode: number;
+  data: Comapanies;
+}
+
 export interface Data {
   data?: { count?: number; rows?: Comapanies[]; statusCode?: number };
 }
@@ -41,7 +46,7 @@ type RFState = {
   successMessage?: string;
   onError?: boolean;
   loading?: boolean;
-  addCompany: (newCompany: Comapanies) => void;
+  addCompany: (newCompany: any) => void;
   fetchAllCompanies: () => void;
   updateCompanies: (data: Partial<Comapanies>) => void;
   deleteCompany: (id: any) => void;
@@ -96,14 +101,27 @@ const useCompanyStore = create<RFState>()(
           }
         }
       },
-      addCompany: async (data: Comapanies) => {
-        const response = await Companies.addCompany(data);
-        console.log("res", response);
-        console.log("data", data);
+      addCompany: async (data: any) => {
+        set({ loading: true });
+        const response: CompanyResponse = await Companies.addCompany(data);
+
+        if (response.statusCode === 200) {
+          set({
+            loading: false,
+            onError: false,
+            errorMessage: "",
+            successMessage: "Successful adding company",
+          });
+        } else {
+          set({
+            loading: false,
+            onError: true,
+            errorMessage: "Error adding Company",
+          });
+        }
       },
       deleteCompany: async (id: any) => {
         if (!id) return;
-
         set({ loading: true });
         const response = await Companies.deleteCompany(id);
 

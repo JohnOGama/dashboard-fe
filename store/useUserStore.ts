@@ -57,11 +57,10 @@ const useUserStore = create<RFState>()(
         },
         updateUser: async (data: Partial<Users>) => {
           if (!data._id) return;
-          console.log("datazdata", data);
+
           set({ loading: true });
           try {
             const response = await User.updateUser(data);
-            console.log("dataz", response);
             if (response.statusCode === 200) {
               set({ loading: false, onError: false, errorMessage: "" });
             } else {

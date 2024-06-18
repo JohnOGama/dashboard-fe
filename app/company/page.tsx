@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import EditCompany from "@/Table/Actions/Company/EditCompany";
 import AddCompany from "@/Table/Actions/Company/AddCompany";
 import DeleteCompany from "@/Table/Actions/Company/DeleteCompany";
+import LoadingSpinner from "@/components/Common/Loading";
 
 const Company = ({ hasHeader = true }) => {
   // const { loading, data, refetchData } = useFetch("user", "/get-all-user");
@@ -120,17 +121,22 @@ const Company = ({ hasHeader = true }) => {
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-center">
           <Input placeholder="Search" className="w-fit" />
-
           <AddCompany />
         </div>
-        <Card>
-          <TableData
-            columns={columns}
-            data={companies?.data?.rows || companies}
-            onError={onError}
-            errorMessage={errorMessage}
-          />
-        </Card>
+        {loading ? (
+          <div className="flex justify-center items-center h-[40vh]">
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <Card>
+            <TableData
+              columns={columns}
+              data={companies?.data?.rows || companies}
+              onError={onError}
+              errorMessage={errorMessage}
+            />
+          </Card>
+        )}
       </div>
     </div>
   );
