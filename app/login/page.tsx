@@ -59,7 +59,6 @@ const Login = () => {
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4 mt-4" onSubmit={handleLogin}>
-            {onError && <h1 className="text-red-600">{errorMessage}</h1>}
             <div>
               <Label>Username</Label>
               <Input value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -89,7 +88,7 @@ const Login = () => {
           </form>
         </CardContent>
         <CardFooter>
-          <small className="text-center w-full">John Ogama dev</small>
+          {onError && <h1 className="text-red-600">{errorMessage}</h1>}
         </CardFooter>
       </Card>
     </div>

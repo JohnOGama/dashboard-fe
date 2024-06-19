@@ -28,7 +28,7 @@ const PaginationBtn: React.FC<PaginationProps> = ({
       <PaginationContent>
         <PaginationItem>
           <Button
-            disabled={!getCanPreviousPage()}
+            // disabled={!getCanPreviousPage()}
             variant="ghost"
             onClick={() => previousPage()}
           >
@@ -43,7 +43,7 @@ const PaginationBtn: React.FC<PaginationProps> = ({
         </PaginationItem> */}
         <PaginationItem>
           <Button
-            disabled={!getCanNextPage()}
+            // disabled={!getCanNextPage()}
             variant="ghost"
             onClick={() => nextPage()}
           >
