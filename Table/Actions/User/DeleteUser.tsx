@@ -33,7 +33,7 @@ const DeleteUser: React.FC<DeleteUserProps> = ({ props }) => {
       color: "white",
       title: "Successful Delete User",
     });
-    deleteUser(_id);
+    await deleteUser(_id);
     fetchAllUsers();
   }
 

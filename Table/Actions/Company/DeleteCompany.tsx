@@ -32,7 +32,7 @@ const DeleteCompany: React.FC<DeleteCompanyProps> = ({ props }) => {
       color: "white",
       title: "Successful Delete Company",
     });
-    deleteCompany(_id);
+    await deleteCompany(_id);
   }
 
   return (

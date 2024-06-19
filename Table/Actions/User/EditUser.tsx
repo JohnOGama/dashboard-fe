@@ -30,12 +30,13 @@ const UserSchema = z.object({
   email: z.string(),
   role: z.string(),
   username: z.string(),
+  status: z.string(),
 });
 
 type UserFormData = z.infer<typeof UserSchema>;
 
 const EditUser: React.FC<EditUserProps> = ({ props }) => {
-  const { _id, name, email, role, username, firstName, lastName } =
+  const { _id, status, email, role, username, firstName, lastName } =
     props.row.original;
   const { updateUser, fetchAllUsers } = useUserStore((state) => state);
   const { toast } = useToast();
@@ -55,6 +56,7 @@ const EditUser: React.FC<EditUserProps> = ({ props }) => {
       email,
       role,
       username,
+      status,
     },
   });
 
@@ -65,6 +67,7 @@ const EditUser: React.FC<EditUserProps> = ({ props }) => {
     email,
     role,
     username,
+    status,
   });
 
   useEffect(() => {
@@ -75,8 +78,9 @@ const EditUser: React.FC<EditUserProps> = ({ props }) => {
       email,
       role,
       username,
+      status,
     });
-  }, [_id, firstName, lastName, email, role, username]);
+  }, [_id, firstName, lastName, email, role, username, status]);
 
   const onSubmit = async (data: UserFormData) => {
     const hasChanged = JSON.stringify(data) !== JSON.stringify(initialValues);
@@ -149,6 +153,14 @@ const EditUser: React.FC<EditUserProps> = ({ props }) => {
                 <Input
                   type="text"
                   {...register("username")}
+                  className="mt-1 w-full"
+                />
+              </div>
+              <div>
+                <label htmlFor="status">Status</label>
+                <Input
+                  type="text"
+                  {...register("status")}
                   className="mt-1 w-full"
                 />
               </div>

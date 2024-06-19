@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,7 +37,6 @@ const AddCompany = ({}) => {
   const { toast } = useToast();
 
   const onSubmit = async (data: CompanyFormData) => {
-    console.log("data", data);
     try {
       await addCompany(data);
       toast({
@@ -54,6 +53,10 @@ const AddCompany = ({}) => {
       });
     }
   };
+
+  useEffect(() => {
+    fetchAllCompanies();
+  }, [fetchAllCompanies]);
 
   return (
     <AlertDialog>
@@ -96,9 +99,7 @@ const AddCompany = ({}) => {
             <AlertDialogCancel onClick={() => reset()}>
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction type="submit" onClick={handleSubmit(onSubmit)}>
-              Create company
-            </AlertDialogAction>
+            <AlertDialogAction type="submit">Create company</AlertDialogAction>
           </AlertDialogFooter>
         </form>
       </AlertDialogContent>

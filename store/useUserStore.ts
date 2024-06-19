@@ -89,7 +89,6 @@ const useUserStore = create<RFState>()(
       deleteUser: async (id: any) => {
         if (!id) return;
 
-        set({ loading: true });
         const response = await User.deleteUser(id);
 
         if (response.statusCode === 200) {

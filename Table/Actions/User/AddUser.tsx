@@ -62,8 +62,8 @@ const AddUser: React.FC = () => {
         color: "white",
         title: "Successfully added user",
       });
-      console.log("res", res);
-      fetchAllUsers();
+
+      // fetchAllUsers();
       reset();
     } catch (error) {
       toast({
