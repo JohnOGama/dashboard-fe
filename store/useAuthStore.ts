@@ -72,7 +72,7 @@ const useAuthStore = create<RFState>()(
           } else {
             set(() => ({
               errorMessage:
-                doLoginUser.data.message[0] || "Invalid Password or Username",
+                doLoginUser.data.message || "Invalid Password or Username",
               onError: true,
               loading: false,
             }));
