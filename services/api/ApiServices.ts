@@ -38,8 +38,8 @@ const createApi = () => {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
   };
-  // @ts-ignore
-  let AUTH_TOKEN = JSON.parse(localStorage.getItem("Auth"))?.state?.token;
+  const toekn = localStorage.getItem("Auth") ? JSON.parse(localStorage.getItem("Auth") || "") : "";
+  let AUTH_TOKEN = toekn?.state?.token;
   if (AUTH_TOKEN) {
     headers.Authorization = `Bearer ${AUTH_TOKEN}`;
   }

@@ -55,9 +55,9 @@ const useAuthStore = create<RFState>()(
             password,
             remember,
           });
-          if (doLoginUser.data.status) {
+          if (doLoginUser.data.status && doLoginUser.data.isAdmin) {
             // Append token here to authenticate request
-            axios.defaults.headers.common.Authorization = `Bearer ${doLoginUser.data.token}`;
+            // axios.defaults.headers.common.Authorization = `Bearer ${doLoginUser.data.token}`;
             const getUser = await User.getMe();
 
             set(() => ({
