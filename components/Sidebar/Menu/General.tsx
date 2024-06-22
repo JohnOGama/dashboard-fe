@@ -44,30 +44,23 @@ const General = () => {
   const pathname = usePathname();
   const [showMenu, setShowMenu] = useState<boolean>(true);
   return (
-    <div className={`flex gap-5 flex-col mt-5  ${showMenu ? "mb-10" : "mb-5"}`}>
-      <div
-        className="flex gap-3 items-center cursor-pointer"
-        onClick={() => setShowMenu(!showMenu)}
-      >
-        <ChevronDown className="text-gray-400" size={15} />
-        <h1 className="text-sm text-gray-700">GENERAL</h1>
-      </div>
-      {showMenu && (
-        <React.Fragment>
-          {menu.map((nav, index) => (
-            <Link
-              href={nav.path}
-              key={index}
-              className={`flex gap-4 items-center hover:underline duration-300 ${
-                pathname === nav.path && "underline"
-              }`}
-            >
-              <div>{nav.icon}</div>
-              <h1 className="text-gray-600 text-sm font-normal">{nav.label}</h1>
-            </Link>
-          ))}
-        </React.Fragment>
-      )}
+    <div
+      className={`flex gap-5 flex-col mt-10  ${showMenu ? "mb-10" : "mb-5"}`}
+    >
+      <React.Fragment>
+        {menu.map((nav, index) => (
+          <Link
+            href={nav.path}
+            key={index}
+            className={`flex gap-4 items-center hover:underline duration-300 ${
+              pathname === nav.path && "underline"
+            }`}
+          >
+            <div>{nav.icon}</div>
+            <h1 className="text-gray-600 text-sm font-normal">{nav.label}</h1>
+          </Link>
+        ))}
+      </React.Fragment>
     </div>
   );
 };

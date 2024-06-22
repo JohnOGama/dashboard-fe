@@ -80,7 +80,7 @@ const AddUser: React.FC = () => {
         Add User
       </AlertDialogTrigger>
 
-      <AlertDialogContent>
+      <AlertDialogContent className="w-full">
         <AlertDialogHeader>
           <AlertDialogTitle>Add User</AlertDialogTitle>
           <AlertDialogDescription>

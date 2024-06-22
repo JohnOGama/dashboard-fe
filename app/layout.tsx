@@ -27,7 +27,7 @@ export default function RootLayout({
           <aside>
             <Sidebar />
           </aside>
-          <div className=" h-screen w-full overflow-y-auto px-10 py-5 bg-[#F1F4F6] ">
+          <div className=" h-screen w-full px-10 py-5 bg-[#F1F4F6] ">
             <main className="">{children}</main>
           </div>
         </div>

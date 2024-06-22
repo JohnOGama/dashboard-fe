@@ -54,10 +54,6 @@ const AddCompany = ({}) => {
     }
   };
 
-  useEffect(() => {
-    fetchAllCompanies();
-  }, [fetchAllCompanies]);
-
   return (
     <AlertDialog>
       <AlertDialogTrigger className={buttonVariants({ variant: "default" })}>

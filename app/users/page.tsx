@@ -17,11 +17,13 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/utils/dateFormater";
 import LoadingSpinner from "@/components/Common/Loading";
+import EditUserForm from "@/Table/Actions/User/EditUser"; // Import the new EditUserForm component
+import CustomModal from "@/components/Common/CustomModal";
 
 const Users = () => {
   const { fetchAllUsers, users, loading } = useUserStore((state) => state);
-  const [test, setTest] = useState<any>(null);
   const { user } = useAuthStore((state) => state);
+  const [editingUser, setEditingUser] = useState(null); // State to track the user being edited
 
   useEffect(() => {
     fetchAllUsers();
@@ -84,7 +86,13 @@ const Users = () => {
       accessorKey: "actions",
       cell: (props: any) => (
         <div className="flex gap-3">
-          <EditUser props={props} />
+          <Badge
+            className="cursor-pointer"
+            onClick={() => setEditingUser(props.row.original)}
+          >
+            Edit
+          </Badge>
+
           <DeleteUser props={props} />
         </div>
       ),
@@ -101,36 +109,36 @@ const Users = () => {
 
   return (
     <div>
-      <div>
-        <h1>Dashboard</h1>
-        <div className="my-5 flex gap-5">
+      <div className="my-5">
+        <h1>Users</h1>
+        {/* <div className="my-5 flex gap-5">
           <CardData label="Active Users" count={activeUsers} />
           <CardData label="Unverified email" count={unverifiedEmails} />
           <CardData label="Total Users" count={users.data?.count} />
-        </div>
+        </div> */}
       </div>
 
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center">
-          <Input
-            placeholder="Search"
-            className="w-fit"
-            value={test}
-            onChange={(e) => setTest(e.target.value)}
-          />
-
-          <AddUser />
+      {loading ? (
+        <div className="flex justify-center items-center h-[40vh]">
+          <LoadingSpinner />
         </div>
-        {loading ? (
-          <div className="flex justify-center items-center h-[40vh]">
-            <LoadingSpinner />
+      ) : (
+        <TableData
+          columns={columns}
+          data={users.data?.rows || users}
+          UserDropdown
+        />
+      )}
+      {editingUser && (
+        <CustomModal open={editingUser} onClose={() => setEditingUser(null)}>
+          <div className="bg-white ">
+            <EditUserForm
+              user={editingUser}
+              onClose={() => setEditingUser(null)}
+            />
           </div>
-        ) : (
-          <Card>
-            <TableData columns={columns} data={users.data?.rows || users} />
-          </Card>
-        )}
-      </div>
+        </CustomModal>
+      )}
     </div>
   );
 };

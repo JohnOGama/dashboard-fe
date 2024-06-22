@@ -32,10 +32,9 @@ const Login = () => {
   async function handleLogin(e: any) {
     e.preventDefault();
     try {
-      login(email, password, rememberMe);
-      if (token) {
-        setCookie("auth", token, { path: "/" });
-
+      const response: any = await login(email, password, rememberMe);
+      if (response.statusCode === 200) {
+        setCookie("auth", token, { sameSite: "none", secure: true });
         router.push("/");
       }
     } catch (error: unknown) {
@@ -46,10 +45,10 @@ const Login = () => {
   }
 
   useEffect(() => {
-    if (cookies.auth) {
+    if (cookies.auth && token) {
       router.push("/");
     }
-  }, [cookies, router]);
+  }, [cookies, router, token]);
 
   return (
     <div className="flex justify-center items-center h-screen">

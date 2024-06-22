@@ -101,33 +101,28 @@ const Company = ({ hasHeader = true }) => {
 
   return (
     <div className="">
-      <div>
-        <h1>Dashboard</h1>
-        <div className="my-5 flex gap-5">
+      <div className="my-5">
+        <h1>Companies</h1>
+        {/* <div className="my-5 flex gap-5">
           <CardData label="Active Company" count={activeCompanies} />
           <CardData label="Pending Company" />
           <CardData label="Total Company" count={companies.data?.count} />
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center">
-          <Input placeholder="Search" className="w-fit" />
-          <AddCompany />
-        </div>
         {loading ? (
           <div className="flex justify-center items-center h-[40vh]">
             <LoadingSpinner />
           </div>
         ) : (
-          <Card>
-            <TableData
-              columns={columns}
-              data={companies?.data?.rows || companies}
-              onError={onError}
-              errorMessage={errorMessage}
-            />
-          </Card>
+          <TableData
+            CompaniesDropdown
+            columns={columns}
+            data={companies?.data?.rows || companies}
+            onError={onError}
+            errorMessage={errorMessage}
+          />
         )}
       </div>
     </div>

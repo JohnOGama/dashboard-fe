@@ -55,12 +55,13 @@ const useAuthStore = create<RFState>()(
             password,
             remember,
           });
+          console.log("res", doLoginUser);
           if (doLoginUser.data.status && doLoginUser.data.isAdmin) {
             // Append token here to authenticate request
             // axios.defaults.headers.common.Authorization = `Bearer ${doLoginUser.data.token}`;
             const getUser = await User.getMe();
 
-            set(() => ({
+            set({
               errorMessage: "",
               onError: false,
               loading: false,
@@ -68,14 +69,15 @@ const useAuthStore = create<RFState>()(
               user: {
                 ...getUser.data,
               },
-            }));
+            });
+            return doLoginUser;
           } else {
-            set(() => ({
+            set({
               errorMessage:
                 doLoginUser.data.message || "Invalid Password or Username",
               onError: true,
               loading: false,
-            }));
+            });
           }
         },
         register: (username: string, email: string, password: string) => {},
