@@ -70,6 +70,7 @@ const useUserStore = create<RFState>()(
         set({ loading: true });
         try {
           const response = await User.updateUser(data);
+          console.log("res", response);
           if (response.statusCode === 200) {
             set({ loading: false, onError: false, errorMessage: "" });
           } else {

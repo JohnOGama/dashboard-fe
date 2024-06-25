@@ -9,3 +9,8 @@ export const CompanyFilter = {
   subscriptionType: ["basic", "free", "enterprise"],
   status: ["active", "inactive"],
 };
+
+export const StatusOptions = [
+  { value: "active", label: "Active" },
+  { value: "inactive", label: "Inactive" },
+];

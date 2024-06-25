@@ -107,6 +107,8 @@ const Users = () => {
     (user) => user.status === "active"
   ).length;
 
+  console.log("user", users);
+
   return (
     <div>
       <div className="my-5">
@@ -131,7 +133,7 @@ const Users = () => {
       )}
       {editingUser && (
         <CustomModal open={editingUser} onClose={() => setEditingUser(null)}>
-          <div className="bg-white ">
+          <div className="fixed right-0  w-[450px]  bg-white h-screen top-0 px-2 overflow-y-auto">
             <EditUserForm
               user={editingUser}
               onClose={() => setEditingUser(null)}

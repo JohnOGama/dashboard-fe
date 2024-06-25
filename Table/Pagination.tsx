@@ -14,6 +14,9 @@ type PaginationProps = {
   previousPage?: any;
   getCanNextPage?: any;
   nextPage?: any;
+  getPageCount?: any;
+  setPageIndex?: any;
+  getState?: any;
 };
 
 const PaginationBtn: React.FC<PaginationProps> = ({
@@ -22,6 +25,9 @@ const PaginationBtn: React.FC<PaginationProps> = ({
   previousPage,
   getCanNextPage,
   nextPage,
+  getPageCount,
+  setPageIndex,
+  getState,
 }) => {
   return (
     <Pagination>
@@ -36,7 +42,20 @@ const PaginationBtn: React.FC<PaginationProps> = ({
           </Button>
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink>{pageIndex + 1}</PaginationLink>
+          {/* <PaginationLink>{pageIndex + 1}</PaginationLink> */}
+          <div className="flex items-center gap-2">
+            {Array.from({ length: getPageCount() }).map((_, index) => (
+              <Button
+                variant="ghost"
+                key={index}
+                size="sm"
+                onClick={() => setPageIndex(index)}
+                disabled={getState().pagination.pageIndex === index}
+              >
+                {index + 1}
+              </Button>
+            ))}
+          </div>
         </PaginationItem>
         {/* <PaginationItem>
           <PaginationEllipsis />
